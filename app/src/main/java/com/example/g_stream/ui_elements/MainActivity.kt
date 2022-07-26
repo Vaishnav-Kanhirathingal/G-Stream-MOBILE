@@ -1,6 +1,5 @@
-package com.example.g_stream
+package com.example.g_stream.ui_elements
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.g_stream.databinding.ActivityMainBinding
@@ -16,9 +15,5 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun applyBinding() {
-        binding.testButton.setOnClickListener {
-            // TODO: go to full screen
-            startActivity(Intent(this,StreamActivity::class.java))
-        }
     }
 }
