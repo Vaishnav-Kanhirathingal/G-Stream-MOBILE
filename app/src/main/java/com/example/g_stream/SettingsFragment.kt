@@ -1,22 +1,21 @@
 package com.example.g_stream
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.g_stream.databinding.FragmentScanBinding
-import com.example.g_stream.ui_elements.StreamActivity
+import com.example.g_stream.databinding.FragmentSettingsBinding
 
-class ScanFragment : Fragment() {
-    private lateinit var binding: FragmentScanBinding
+class SettingsFragment : Fragment() {
+    private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentScanBinding.inflate(layoutInflater)
+        // Inflate the layout for this fragment
+        binding = FragmentSettingsBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -26,9 +25,5 @@ class ScanFragment : Fragment() {
     }
 
     private fun applyBinding() {
-    }
-
-    private fun onSuccess(){
-        // TODO: take connection parameters
     }
 }
