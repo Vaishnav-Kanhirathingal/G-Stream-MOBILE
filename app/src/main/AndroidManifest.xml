@@ -27,13 +27,13 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".ui_elements.StreamActivity"
+            android:name=".ui_elements.activity.StreamActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/title_activity_stream"
             android:theme="@style/Theme.GStream.Fullscreen" />
         <activity
-            android:name=".ui_elements.MainActivity"
+            android:name=".ui_elements.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

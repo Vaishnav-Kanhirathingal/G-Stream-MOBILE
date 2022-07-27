@@ -1,4 +1,4 @@
-package com.example.g_stream.ui_elements
+package com.example.g_stream.ui_elements.activity
 
 import android.annotation.SuppressLint
 import android.os.Build

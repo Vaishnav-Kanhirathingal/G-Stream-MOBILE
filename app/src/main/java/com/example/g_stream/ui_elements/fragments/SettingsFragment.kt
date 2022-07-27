@@ -1,4 +1,4 @@
-package com.example.g_stream
+package com.example.g_stream.ui_elements.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
