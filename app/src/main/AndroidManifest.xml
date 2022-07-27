@@ -3,6 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.g_stream">
 
+    <uses-sdk tools:overrideLibrary="
+      androidx.camera.camera2, androidx.camera.core,
+      androidx.camera.view, androidx.camera.lifecycle" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GStream"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".ui_elements.StreamActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
