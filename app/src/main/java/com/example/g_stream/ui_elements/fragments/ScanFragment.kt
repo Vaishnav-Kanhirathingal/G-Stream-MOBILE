@@ -1,6 +1,5 @@
 package com.example.g_stream.ui_elements.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.g_stream.databinding.FragmentScanBinding
@@ -22,7 +20,6 @@ class ScanFragment : Fragment() {
     private lateinit var binding: FragmentScanBinding
     private val TAG: String = this::class.java.simpleName
 
-    private var previewView: PreviewView? = null
     private var cameraProvider: ProcessCameraProvider? = null
     private var cameraSelector: CameraSelector? = null
     private var previewUseCase: Preview? = null
@@ -45,12 +42,11 @@ class ScanFragment : Fragment() {
     }
 
     private fun setupCamera() {
-        previewView = binding.cameraPreview
         cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
         ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.requireActivity().application)
-        ).get(StreamViewModel::class.java)
+        )[StreamViewModel::class.java]
             .processCameraProvider
             .observe(viewLifecycleOwner) { provider: ProcessCameraProvider? ->
                 cameraProvider = provider
@@ -72,51 +68,30 @@ class ScanFragment : Fragment() {
         }
         previewUseCase = Preview.Builder()
             .setTargetAspectRatio(screenAspectRatio)
-            .setTargetRotation(previewView!!.display.rotation)
+            .setTargetRotation(binding.cameraPreview.display.rotation)
             .build()
-        previewUseCase!!.setSurfaceProvider(previewView!!.surfaceProvider)
+        previewUseCase!!.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
         try {
-            cameraProvider!!.bindToLifecycle(
-                this,
-                cameraSelector!!,
-                previewUseCase
-            )
-        } catch (illegalStateException: IllegalStateException) {
-            Log.e(TAG, illegalStateException.message ?: "IllegalStateException")
-        } catch (illegalArgumentException: IllegalArgumentException) {
-            Log.e(TAG, illegalArgumentException.message ?: "IllegalArgumentException")
+            cameraProvider!!.bindToLifecycle(this, cameraSelector!!, previewUseCase)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     private fun bindAnalyseUseCase() {
-        val barcodeScanner: BarcodeScanner = BarcodeScanning.getClient()
-        if (cameraProvider == null) {
-            return
-        }
-        if (analysisUseCase != null) {
-            cameraProvider!!.unbind(analysisUseCase)
-        }
+        if (cameraProvider == null) return
+        if (analysisUseCase != null) cameraProvider!!.unbind(analysisUseCase)
         analysisUseCase = ImageAnalysis.Builder()
             .setTargetAspectRatio(screenAspectRatio)
-            .setTargetRotation(previewView!!.display.rotation)
+            .setTargetRotation(binding.cameraPreview.display.rotation)
             .build()
-        val cameraExecutor = Executors.newSingleThreadExecutor()
-        analysisUseCase?.setAnalyzer(
-            cameraExecutor,
-            ImageAnalysis.Analyzer { imageProxy ->
-                processImageProxy(barcodeScanner, imageProxy)
-            }
-        )
+        analysisUseCase?.setAnalyzer(Executors.newSingleThreadExecutor()) {
+            processImageProxy(BarcodeScanning.getClient(), it)
+        }
         try {
-            cameraProvider!!.bindToLifecycle(
-               this,
-                cameraSelector!!,
-                analysisUseCase
-            )
-        } catch (illegalStateException: IllegalStateException) {
-            Log.e(TAG, illegalStateException.message ?: "IllegalStateException")
-        } catch (illegalArgumentException: IllegalArgumentException) {
-            Log.e(TAG, illegalArgumentException.message ?: "IllegalArgumentException")
+            cameraProvider!!.bindToLifecycle(this, cameraSelector!!, analysisUseCase)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -124,19 +99,20 @@ class ScanFragment : Fragment() {
         barcodeScanner: BarcodeScanner,
         imageProxy: ImageProxy
     ) {
-        val inputImage =
-            InputImage.fromMediaImage(imageProxy.image!!, imageProxy.imageInfo.rotationDegrees)
-
-        barcodeScanner.process(inputImage)
+        barcodeScanner
+            .process(
+                InputImage.fromMediaImage(
+                    imageProxy.image!!,
+                    imageProxy.imageInfo.rotationDegrees
+                )
+            )
             .addOnSuccessListener { barcodes ->
                 barcodes.forEach {
-                    Log.d(TAG, it.rawValue!!)
+                    Log.d(TAG, "value received - ${it.rawValue!!}")
+                    // TODO: check if the raw value recieved is what we want using a try catch
                 }
             }
-            .addOnFailureListener {
-                Log.e(TAG, it.message ?: it.toString())
-            }.addOnCompleteListener {
-                imageProxy.close()
-            }
+            .addOnFailureListener { it.printStackTrace() }
+            .addOnCompleteListener { imageProxy.close() }
     }
 }
