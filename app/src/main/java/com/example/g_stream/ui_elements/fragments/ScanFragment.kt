@@ -109,7 +109,8 @@ class ScanFragment : Fragment() {
             .addOnSuccessListener { barcodes ->
                 barcodes.forEach {
                     Log.d(TAG, "value received - ${it.rawValue!!}")
-                    // TODO: check if the raw value recieved is what we want using a try catch
+                    // TODO: check if the raw value received is what we want using a try catch.
+                    //  Move to the game activity passing the values to the activity inside intent
                 }
             }
             .addOnFailureListener { it.printStackTrace() }
