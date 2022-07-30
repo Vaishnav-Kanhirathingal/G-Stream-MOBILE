@@ -27,12 +27,13 @@ class ScanFragment : Fragment() {
     private val TAG: String = this::class.java.simpleName
 
     private var cameraProvider: ProcessCameraProvider? = null
-    private var cameraSelector: CameraSelector? = null
     private var previewUseCase: Preview? = null
     private var analysisUseCase: ImageAnalysis? = null
 
     private val lensFacing = CameraSelector.LENS_FACING_BACK
     private val screenAspectRatio: Int = AspectRatio.RATIO_4_3
+    private val cameraSelector: CameraSelector =
+        CameraSelector.Builder().requireLensFacing(lensFacing).build()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,14 +49,13 @@ class ScanFragment : Fragment() {
     }
 
     private fun setupCamera() {
-        cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
         ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.requireActivity().application)
         )[StreamViewModel::class.java]
             .processCameraProvider
-            .observe(viewLifecycleOwner) { provider: ProcessCameraProvider? ->
-                cameraProvider = provider
+            .observe(viewLifecycleOwner) {
+                cameraProvider = it
                 bindCameraUseCases()
             }
     }
@@ -66,26 +66,20 @@ class ScanFragment : Fragment() {
     }
 
     private fun bindPreviewUseCase() {
-        if (cameraProvider == null) {
-            return
-        }
-        if (previewUseCase != null) {
-            cameraProvider!!.unbind(previewUseCase)
-        }
+        if (previewUseCase != null) cameraProvider!!.unbind(previewUseCase)
         previewUseCase = Preview.Builder()
             .setTargetAspectRatio(screenAspectRatio)
             .setTargetRotation(binding.cameraPreview.display.rotation)
             .build()
         previewUseCase!!.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
         try {
-            cameraProvider!!.bindToLifecycle(this, cameraSelector!!, previewUseCase)
+            cameraProvider!!.bindToLifecycle(this, cameraSelector, previewUseCase)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     private fun bindAnalyseUseCase() {
-        if (cameraProvider == null) return
         if (analysisUseCase != null) cameraProvider!!.unbind(analysisUseCase)
         analysisUseCase = ImageAnalysis.Builder()
             .setTargetAspectRatio(screenAspectRatio)
