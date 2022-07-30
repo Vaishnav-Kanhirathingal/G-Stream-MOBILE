@@ -5,15 +5,18 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsets
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.ActivityStreamBinding
 
 class StreamActivity : AppCompatActivity() {
+    private val TAG = this::class.java.simpleName
 
     private lateinit var binding: ActivityStreamBinding
     private lateinit var fullscreenContent: TextView
@@ -56,6 +59,9 @@ class StreamActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val connectionData = intent.getStringExtra(ConnectionData.key)
+        Log.d(TAG, "data received = $connectionData!!")
 
         binding = ActivityStreamBinding.inflate(layoutInflater)
         setContentView(binding.root)

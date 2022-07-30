@@ -7,4 +7,8 @@ class ConnectionData(
     val verticalResolution: Int,
     val frameRateCap: Int,
     val bluetoothData: String
-)
+) {
+    companion object {
+        const val key = "connection_data_key"
+    }
+}

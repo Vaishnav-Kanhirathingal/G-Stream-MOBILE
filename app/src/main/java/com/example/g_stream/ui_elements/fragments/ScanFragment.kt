@@ -1,5 +1,7 @@
 package com.example.g_stream.ui_elements.fragments
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,8 +11,12 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.FragmentScanBinding
+import com.example.g_stream.ui_elements.activity.StreamActivity
 import com.example.g_stream.viewmodel.StreamViewModel
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
@@ -95,22 +101,32 @@ class ScanFragment : Fragment() {
         }
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private fun processImageProxy(
         barcodeScanner: BarcodeScanner,
         imageProxy: ImageProxy
     ) {
         barcodeScanner
             .process(
-                InputImage.fromMediaImage(
-                    imageProxy.image!!,
-                    imageProxy.imageInfo.rotationDegrees
-                )
+                InputImage.fromMediaImage(imageProxy.image!!, imageProxy.imageInfo.rotationDegrees)
             )
             .addOnSuccessListener { barcodes ->
                 barcodes.forEach {
-                    Log.d(TAG, "value received - ${it.rawValue!!}")
-                    // TODO: check if the raw value received is what we want using a try catch.
-                    //  Move to the game activity passing the values to the activity inside intent
+                    try {
+                        // TODO: fix so that the activity won't be launched multiple times
+                        Log.d(TAG, "value received - ${it.rawValue!!}")
+                        Gson().fromJson(it.rawValue!!, ConnectionData::class.java).apply {
+                            Log.d(
+                                TAG, "value recieved = \n" +
+                                        GsonBuilder().setPrettyPrinting().create().toJson(this)
+                            )
+                        }
+                        val intent = Intent(this.requireActivity(), StreamActivity::class.java)
+                        intent.putExtra(ConnectionData.key, it.rawValue!!)
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        Log.e(TAG, e.message ?: "error occurred")
+                    }
                 }
             }
             .addOnFailureListener { it.printStackTrace() }
