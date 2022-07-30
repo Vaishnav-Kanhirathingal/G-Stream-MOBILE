@@ -12,6 +12,7 @@ import android.view.WindowInsets
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.ActivityStreamBinding
 
@@ -59,6 +60,7 @@ class StreamActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         val connectionData = intent.getStringExtra(ConnectionData.key)
         Log.d(TAG, "data received = $connectionData!!")

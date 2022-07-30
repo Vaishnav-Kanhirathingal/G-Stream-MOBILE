@@ -2,6 +2,7 @@ package com.example.g_stream.ui_elements.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.g_stream.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,5 +16,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun applyBinding() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
