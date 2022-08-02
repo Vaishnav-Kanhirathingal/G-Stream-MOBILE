@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fullscreen_content"
     android:background="?attr/fullscreenBackgroundColor"
     android:theme="@style/ThemeOverlay.GStream.FullscreenContainer"
     tools:context=".ui_elements.activity.StreamActivity">
 
     <TextView
-        android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
