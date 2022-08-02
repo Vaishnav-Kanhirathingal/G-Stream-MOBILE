@@ -6,13 +6,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsets
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.ActivityStreamBinding
 
@@ -21,7 +18,6 @@ class StreamActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStreamBinding
     private lateinit var fullscreenContent: TextView
-    private lateinit var fullscreenContentControls: LinearLayout
     private val hideHandler = Handler(Looper.myLooper()!!)
 
     private val hidePart2Runnable = Runnable {
@@ -37,30 +33,14 @@ class StreamActivity : AppCompatActivity() {
                         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         }
     }
-    private val showPart2Runnable = Runnable {
-        supportActionBar?.show()
-        fullscreenContentControls.visibility = View.VISIBLE
-    }
+    private val showPart2Runnable = Runnable { supportActionBar?.show() }
     private var isFullscreen: Boolean = false
 
     private val hideRunnable = Runnable { hide() }
 
-    private val delayHideTouchListener = View.OnTouchListener { view, motionEvent ->
-        when (motionEvent.action) {
-            MotionEvent.ACTION_DOWN -> if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS)
-            }
-            MotionEvent.ACTION_UP -> view.performClick()
-            else -> {
-            }
-        }
-        false
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         val connectionData = intent.getStringExtra(ConnectionData.key)
         Log.d(TAG, "data received = $connectionData!!")
@@ -71,9 +51,6 @@ class StreamActivity : AppCompatActivity() {
         isFullscreen = true
         fullscreenContent = binding.fullscreenContent
         fullscreenContent.setOnClickListener { toggle() }
-
-        fullscreenContentControls = binding.fullscreenContentControls
-        binding.dummyButton.setOnTouchListener(delayHideTouchListener)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -91,10 +68,9 @@ class StreamActivity : AppCompatActivity() {
 
     private fun hide() {
         supportActionBar?.hide()
-        fullscreenContentControls.visibility = View.GONE
         isFullscreen = false
         hideHandler.removeCallbacks(showPart2Runnable)
-        hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY.toLong())
+        hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY)
     }
 
     private fun show() {
@@ -107,7 +83,7 @@ class StreamActivity : AppCompatActivity() {
         }
         isFullscreen = true
         hideHandler.removeCallbacks(hidePart2Runnable)
-        hideHandler.postDelayed(showPart2Runnable, UI_ANIMATION_DELAY.toLong())
+        hideHandler.postDelayed(showPart2Runnable, UI_ANIMATION_DELAY)
     }
 
     private fun delayedHide(delayMillis: Int) {
@@ -116,8 +92,6 @@ class StreamActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val AUTO_HIDE = true
-        private const val AUTO_HIDE_DELAY_MILLIS = 3000
-        private const val UI_ANIMATION_DELAY = 300
+        private const val UI_ANIMATION_DELAY = 300L
     }
 }

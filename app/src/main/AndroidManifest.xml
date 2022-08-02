@@ -31,6 +31,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/title_activity_stream"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.GStream.Fullscreen" />
         <activity
             android:name=".ui_elements.activity.MainActivity"

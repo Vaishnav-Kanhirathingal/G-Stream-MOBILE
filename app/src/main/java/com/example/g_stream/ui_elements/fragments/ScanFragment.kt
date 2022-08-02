@@ -97,7 +97,7 @@ class ScanFragment : Fragment() {
             processImageProxy(BarcodeScanning.getClient(), it)
         }
         try {
-            cameraProvider!!.bindToLifecycle(this, cameraSelector!!, analysisUseCase)
+            cameraProvider!!.bindToLifecycle(this, cameraSelector, analysisUseCase)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -115,7 +115,6 @@ class ScanFragment : Fragment() {
             .addOnSuccessListener { barcodes ->
                 barcodes.forEach {
                     try {
-                        // TODO: fix so that the activity won't be launched multiple times
                         Log.d(TAG, "value received - ${it.rawValue!!}")
                         Gson().fromJson(it.rawValue!!, ConnectionData::class.java).apply {
                             Log.d(
