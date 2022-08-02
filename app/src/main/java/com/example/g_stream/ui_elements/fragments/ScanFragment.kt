@@ -30,6 +30,8 @@ class ScanFragment : Fragment() {
     private var previewUseCase: Preview? = null
     private var analysisUseCase: ImageAnalysis? = null
 
+    private var scanComplete = false
+
     private val lensFacing = CameraSelector.LENS_FACING_BACK
     private val screenAspectRatio: Int = AspectRatio.RATIO_4_3
     private val cameraSelector: CameraSelector =
@@ -46,6 +48,12 @@ class ScanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupCamera()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume started")
+        scanComplete = false
     }
 
     private fun setupCamera() {
@@ -115,9 +123,12 @@ class ScanFragment : Fragment() {
                                         GsonBuilder().setPrettyPrinting().create().toJson(this)
                             )
                         }
-                        val intent = Intent(this.requireActivity(), StreamActivity::class.java)
-                        intent.putExtra(ConnectionData.key, it.rawValue!!)
-                        startActivity(intent)
+                        if (!scanComplete) {
+                            scanComplete = true
+                            val intent = Intent(this.requireActivity(), StreamActivity::class.java)
+                            intent.putExtra(ConnectionData.key, it.rawValue!!)
+                            startActivity(intent)
+                        }
                     } catch (e: Exception) {
                         Log.e(TAG, e.message ?: "error occurred")
                     }
