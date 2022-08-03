@@ -10,6 +10,7 @@ import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.ActivityStreamBinding
+import com.google.gson.Gson
 
 class StreamActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
@@ -19,12 +20,19 @@ class StreamActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val connectionData = intent.getStringExtra(ConnectionData.key)
-        Log.d(TAG, "data received = $connectionData!!")
+
+        val connectionData: ConnectionData = getFromIntent()
 
         binding = ActivityStreamBinding.inflate(layoutInflater)
         setContentView(binding.root)
         applyBinding()
+    }
+
+    private fun getFromIntent(): ConnectionData {
+        intent.getStringExtra(ConnectionData.key).let {
+            Log.d(TAG, "data received = $it!!")
+            return Gson().fromJson(it, ConnectionData::class.java)
+        }
     }
 
     private fun applyBinding() {
