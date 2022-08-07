@@ -78,9 +78,10 @@
     </GridLayout>
 
     <GridLayout
+        android:id="@+id/game_pad_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="@dimen/right_padding"
         android:columnCount="3"
         app:layout_constraintBottom_toTopOf="@id/right_joystick"
         app:layout_constraintRight_toRightOf="parent"
@@ -135,8 +136,10 @@
         android:id="@+id/right_joystick"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/right_padding"
+        app:JV_backgroundColor="#22000000"
+        app:JV_buttonColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="#22000000"/>
-
+        app:layout_constraintLeft_toLeftOf="@id/game_pad_layout"
+        app:layout_constraintRight_toRightOf="@id/game_pad_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
