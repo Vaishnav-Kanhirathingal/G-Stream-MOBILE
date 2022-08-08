@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
 import com.example.g_stream.connection.ConnectionData
+import com.example.g_stream.connection.ConsoleTransmitter
 import com.example.g_stream.connection.ConsoleTransmitterEnum
 import com.example.g_stream.databinding.ActivityStreamBinding
 import com.google.gson.Gson
@@ -16,6 +17,7 @@ import com.google.gson.Gson
 class StreamActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
     private val strengthLimit = 40
+    private val transmitter = ConsoleTransmitter()
 
     private lateinit var binding: ActivityStreamBinding
     private val hideHandler = Handler(Looper.myLooper()!!)
@@ -45,34 +47,36 @@ class StreamActivity : AppCompatActivity() {
 
     private fun applyLeftSectionBinding() {
         binding.apply {
-            leftJoystick.setOnMoveListener { angle, strength -> getDirection(angle, strength) }
+            leftJoystick.setOnMoveListener { angle, strength ->
+                transmitter.leftJoystick(
+                    if (strength <= strengthLimit) {
+                        ConsoleTransmitterEnum.RELEASE
+                    } else if ((angle > 315 || angle <= 45) && strength > strengthLimit) {
+                        ConsoleTransmitterEnum.STICK_RIGHT
+                    } else if ((angle in 46..135) && strength > strengthLimit) {
+                        ConsoleTransmitterEnum.STICK_UP
+                    } else if ((angle in 136..225) && strength > strengthLimit) {
+                        ConsoleTransmitterEnum.STICK_LEFT
+                    } else if ((angle in 226..315) && strength > strengthLimit) {
+                        ConsoleTransmitterEnum.STICK_DOWN
+                    } else {
+                        ConsoleTransmitterEnum.RELEASE
+                    }
+                )
+            }
         }
     }
 
     private fun applyRightSectionBinding() {
         binding.apply {
-            triangleButton.setOnClickListener { Log.d(TAG, "triangleButton pressed") }
-            squareButton.setOnClickListener { Log.d(TAG, "squareButton pressed") }
-            circleButton.setOnClickListener { Log.d(TAG, "circleButton pressed") }
-            crossButton.setOnClickListener { Log.d(TAG, "crossButton pressed") }
-            rightJoystick.setOnMoveListener { angle, strength -> getDirection(angle, strength) }
+            triangleButton.setOnClickListener { transmitter.rightPad(ConsoleTransmitterEnum.TRIANGLE) }
+            squareButton.setOnClickListener { transmitter.rightPad(ConsoleTransmitterEnum.SQUARE) }
+            circleButton.setOnClickListener { transmitter.rightPad(ConsoleTransmitterEnum.CIRCLE) }
+            crossButton.setOnClickListener { transmitter.rightPad(ConsoleTransmitterEnum.CROSS) }
+            rightJoystick.setOnMoveListener { angle, strength ->
+                transmitter.rightJoystick(angle, strength)
+            }
         }
-    }
-
-    private fun getDirection(angle: Int, strength: Int): ConsoleTransmitterEnum {
-        val returnable = if ((angle > 315 || angle <= 45) && strength > strengthLimit) {
-            ConsoleTransmitterEnum.STICK_RIGHT
-        } else if ((angle in 46..135) && strength > strengthLimit) {
-            ConsoleTransmitterEnum.STICK_UP
-        } else if ((angle in 136..225) && strength > strengthLimit) {
-            ConsoleTransmitterEnum.STICK_LEFT
-        } else if ((angle in 226..315) && strength > strengthLimit) {
-            ConsoleTransmitterEnum.STICK_DOWN
-        } else {
-            ConsoleTransmitterEnum.RELEASE
-        }
-        Log.d(TAG, "returnable = ${returnable.name}")
-        return returnable
     }
 
     private fun goFullScreen() {
@@ -92,5 +96,10 @@ class StreamActivity : AppCompatActivity() {
                             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
             }
         }, 300L)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        goFullScreen()
     }
 }
