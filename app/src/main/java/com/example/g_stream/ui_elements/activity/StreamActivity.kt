@@ -9,11 +9,13 @@ import android.view.View
 import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
 import com.example.g_stream.connection.ConnectionData
+import com.example.g_stream.connection.ConsoleTransmitterEnum
 import com.example.g_stream.databinding.ActivityStreamBinding
 import com.google.gson.Gson
 
 class StreamActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
+    private val strengthLimit = 40
 
     private lateinit var binding: ActivityStreamBinding
     private val hideHandler = Handler(Looper.myLooper()!!)
@@ -41,25 +43,36 @@ class StreamActivity : AppCompatActivity() {
         applyRightSectionBinding()
     }
 
-    private fun applyRightSectionBinding() {
+    private fun applyLeftSectionBinding() {
         binding.apply {
-            upButton.setOnClickListener { Log.d(TAG, "upButton pressed") }
-            leftButton.setOnClickListener { Log.d(TAG, "leftButton pressed") }
-            rightButton.setOnClickListener { Log.d(TAG, "rightButton pressed") }
-            downButton.setOnClickListener { Log.d(TAG, "downButton pressed") }
+            leftJoystick.setOnMoveListener { angle, strength -> getDirection(angle, strength) }
         }
     }
 
-    private fun applyLeftSectionBinding() {
+    private fun applyRightSectionBinding() {
         binding.apply {
             triangleButton.setOnClickListener { Log.d(TAG, "triangleButton pressed") }
             squareButton.setOnClickListener { Log.d(TAG, "squareButton pressed") }
             circleButton.setOnClickListener { Log.d(TAG, "circleButton pressed") }
             crossButton.setOnClickListener { Log.d(TAG, "crossButton pressed") }
-            rightJoystick.setOnMoveListener { angle, strength ->
-                Log.d(TAG, "values received : angle = $angle and strength = $strength")
-            }
+            rightJoystick.setOnMoveListener { angle, strength -> getDirection(angle, strength) }
         }
+    }
+
+    private fun getDirection(angle: Int, strength: Int): ConsoleTransmitterEnum {
+        val returnable = if ((angle > 315 || angle <= 45) && strength > strengthLimit) {
+            ConsoleTransmitterEnum.STICK_RIGHT
+        } else if ((angle in 46..135) && strength > strengthLimit) {
+            ConsoleTransmitterEnum.STICK_UP
+        } else if ((angle in 136..225) && strength > strengthLimit) {
+            ConsoleTransmitterEnum.STICK_LEFT
+        } else if ((angle in 226..315) && strength > strengthLimit) {
+            ConsoleTransmitterEnum.STICK_DOWN
+        } else {
+            ConsoleTransmitterEnum.RELEASE
+        }
+        Log.d(TAG, "returnable = ${returnable.name}")
+        return returnable
     }
 
     private fun goFullScreen() {
