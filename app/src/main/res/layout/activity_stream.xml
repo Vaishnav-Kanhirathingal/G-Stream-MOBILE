@@ -36,7 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/up_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#22000000"
@@ -46,7 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/left_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#22000000"
@@ -56,7 +58,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/right_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#22000000"
@@ -66,7 +69,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/down_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#22000000"
@@ -91,7 +95,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/triangle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#22000000"
@@ -101,7 +106,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/square_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#22000000"
@@ -111,7 +117,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/circle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#22000000"
@@ -121,7 +128,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/cross_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#22000000"

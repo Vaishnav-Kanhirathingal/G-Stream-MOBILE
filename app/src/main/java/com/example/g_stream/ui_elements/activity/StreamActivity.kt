@@ -36,6 +36,33 @@ class StreamActivity : AppCompatActivity() {
     }
 
     private fun applyBinding() {
+        goFullScreen()
+        applyLeftSectionBinding()
+        applyRightSectionBinding()
+    }
+
+    private fun applyRightSectionBinding() {
+        binding.apply {
+            upButton.setOnClickListener { Log.d(TAG, "upButton pressed") }
+            leftButton.setOnClickListener { Log.d(TAG, "leftButton pressed") }
+            rightButton.setOnClickListener { Log.d(TAG, "rightButton pressed") }
+            downButton.setOnClickListener { Log.d(TAG, "downButton pressed") }
+        }
+    }
+
+    private fun applyLeftSectionBinding() {
+        binding.apply {
+            triangleButton.setOnClickListener { Log.d(TAG, "triangleButton pressed") }
+            squareButton.setOnClickListener { Log.d(TAG, "squareButton pressed") }
+            circleButton.setOnClickListener { Log.d(TAG, "circleButton pressed") }
+            crossButton.setOnClickListener { Log.d(TAG, "crossButton pressed") }
+            rightJoystick.setOnMoveListener { angle, strength ->
+                Log.d(TAG, "values received : angle = $angle and strength = $strength")
+            }
+        }
+    }
+
+    private fun goFullScreen() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.hide()
         hideHandler.removeCallbacks { supportActionBar?.show() }
