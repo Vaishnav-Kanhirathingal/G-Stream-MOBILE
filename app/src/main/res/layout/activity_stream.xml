@@ -23,15 +23,36 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/shift_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/translucent"
+        android:src="@drawable/up_24"
+        android:tooltipText="press this to activate shift key"
+        app:layout_constraintBottom_toTopOf="@id/left_joystick"
+        app:layout_constraintLeft_toLeftOf="@id/left_joystick"
+        app:layout_constraintRight_toRightOf="@id/left_joystick"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/shift_active_image_view"
+        android:layout_width="@dimen/active_shift"
+        android:layout_height="@dimen/active_shift"
+        android:layout_margin="@dimen/active_shift"
+        app:layout_constraintBottom_toTopOf="@id/shift_image_button"
+        app:layout_constraintRight_toLeftOf="@id/shift_image_button"
+        tools:src="#00ff00" />
+
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/left_joystick"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/right_padding"
-        app:JV_backgroundColor="#22000000"
+        app:JV_backgroundColor="@color/translucent"
         app:JV_buttonColor="@color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <GridLayout
         android:id="@+id/game_pad_layout"
@@ -39,8 +60,8 @@
         android:layout_height="wrap_content"
         android:columnCount="3"
         app:layout_constraintBottom_toTopOf="@id/right_joystick"
-        app:layout_constraintRight_toRightOf="@id/right_joystick"
         app:layout_constraintLeft_toLeftOf="@id/right_joystick"
+        app:layout_constraintRight_toRightOf="@id/right_joystick"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -51,7 +72,7 @@
             android:id="@+id/triangle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#22000000"
+            android:background="@color/translucent"
             android:src="@drawable/triangle_24" />
 
         <ImageView
@@ -62,7 +83,7 @@
             android:id="@+id/square_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#22000000"
+            android:background="@color/translucent"
             android:src="@drawable/square_24" />
 
         <ImageView
@@ -73,7 +94,7 @@
             android:id="@+id/circle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#22000000"
+            android:background="@color/translucent"
             android:src="@drawable/circle_24" />
 
         <ImageView
@@ -84,7 +105,7 @@
             android:id="@+id/cross_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#22000000"
+            android:background="@color/translucent"
             android:src="@drawable/closed_cross_24" />
 
         <ImageView
@@ -97,8 +118,8 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/right_padding"
-        app:JV_backgroundColor="#22000000"
+        app:JV_backgroundColor="@color/translucent"
         app:JV_buttonColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

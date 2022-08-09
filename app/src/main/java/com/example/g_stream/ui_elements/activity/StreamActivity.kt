@@ -8,9 +8,12 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import com.example.g_stream.R
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.connection.ConsoleTransmitter
-import com.example.g_stream.connection.ConsoleTransmitterEnum
+import com.example.g_stream.connection.JoyStickControls
+import com.example.g_stream.connection.PadControls
 import com.example.g_stream.databinding.ActivityStreamBinding
 import com.google.gson.Gson
 
@@ -18,6 +21,7 @@ class StreamActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
     private val strengthLimit = 40
     private val transmitter = ConsoleTransmitter()
+    private val shiftActive = MutableLiveData(false)
 
     private lateinit var binding: ActivityStreamBinding
     private val hideHandler = Handler(Looper.myLooper()!!)
@@ -51,20 +55,23 @@ class StreamActivity : AppCompatActivity() {
      */
     private fun applyLeftSectionBinding() {
         binding.apply {
+            shiftImageButton.setOnClickListener { shiftActive.value = !shiftActive.value!! }
+            shiftActive.observe(this@StreamActivity) {
+                // TODO: notify shift button is no longer pressed
+                shiftActiveImageView.setImageResource(if (it) R.color.green else R.color.red)
+            }
+
             leftJoystick.setOnMoveListener { angle, strength ->
                 transmitter.leftJoystick(
                     if (strength <= strengthLimit) {
-                        ConsoleTransmitterEnum.RELEASE
-                    } else if ((angle > 315 || angle <= 45) && strength > strengthLimit) {
-                        ConsoleTransmitterEnum.STICK_RIGHT
-                    } else if ((angle in 46..135) && strength > strengthLimit) {
-                        ConsoleTransmitterEnum.STICK_UP
-                    } else if ((angle in 136..225) && strength > strengthLimit) {
-                        ConsoleTransmitterEnum.STICK_LEFT
-                    } else if ((angle in 226..315) && strength > strengthLimit) {
-                        ConsoleTransmitterEnum.STICK_DOWN
+                        JoyStickControls.RELEASE
                     } else {
-                        ConsoleTransmitterEnum.RELEASE
+                        when (angle) {
+                            in 46..135 -> JoyStickControls.STICK_UP
+                            in 136..225 -> JoyStickControls.STICK_LEFT
+                            in 226..315 -> JoyStickControls.STICK_DOWN
+                            else -> JoyStickControls.STICK_RIGHT
+                        }
                     }
                 )
             }
@@ -78,10 +85,10 @@ class StreamActivity : AppCompatActivity() {
      */
     private fun applyRightSectionBinding() {
         binding.apply {
-            triangleButton.setOnClickListener { transmitter.rightPad(ConsoleTransmitterEnum.TRIANGLE) }
-            squareButton.setOnClickListener { transmitter.rightPad(ConsoleTransmitterEnum.SQUARE) }
-            circleButton.setOnClickListener { transmitter.rightPad(ConsoleTransmitterEnum.CIRCLE) }
-            crossButton.setOnClickListener { transmitter.rightPad(ConsoleTransmitterEnum.CROSS) }
+            triangleButton.setOnClickListener { transmitter.rightPad(PadControls.TRIANGLE) }
+            squareButton.setOnClickListener { transmitter.rightPad(PadControls.SQUARE) }
+            circleButton.setOnClickListener { transmitter.rightPad(PadControls.CIRCLE) }
+            crossButton.setOnClickListener { transmitter.rightPad(PadControls.CROSS) }
             rightJoystick.setOnMoveListener { angle, strength ->
                 transmitter.rightJoystick(angle, strength)
             }
