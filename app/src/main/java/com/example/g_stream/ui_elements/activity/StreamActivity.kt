@@ -34,7 +34,7 @@ class StreamActivity : AppCompatActivity() {
 
     private fun getFromIntent(): ConnectionData {
         intent.getStringExtra(ConnectionData.key).let {
-            Log.d(TAG, "data received = $it!!")
+            Log.d(TAG, "data received = ${it!!}")
             return Gson().fromJson(it, ConnectionData::class.java)
         }
     }
@@ -45,6 +45,10 @@ class StreamActivity : AppCompatActivity() {
         applyRightSectionBinding()
     }
 
+    /**
+     * this function performs left section bindings. Joystick is divided into four sections which
+     * are implementations of the UP, DOWN, LEFT and RIGHT button in the desktop keyboard.
+     */
     private fun applyLeftSectionBinding() {
         binding.apply {
             leftJoystick.setOnMoveListener { angle, strength ->
@@ -67,6 +71,11 @@ class StreamActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * this applies binding to the right section of the screen. This includes the game pad controls
+     * which include the TRIANGLE, SQUARE, CIRCLE and the CROSS buttons and the joystick controls.
+     * Joystick controls send the raw data directly to the transmitter for better accuracy.
+     */
     private fun applyRightSectionBinding() {
         binding.apply {
             triangleButton.setOnClickListener { transmitter.rightPad(ConsoleTransmitterEnum.TRIANGLE) }
@@ -79,6 +88,9 @@ class StreamActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * makes the activity go full screen.
+     */
     private fun goFullScreen() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.hide()

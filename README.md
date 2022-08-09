@@ -6,8 +6,8 @@ Android client of the project.
 
 ### Phase - 1
 
-- Implement joysticks
-- Implement buttons
+- Implement joysticks [done]
+- Implement buttons [done]
 - Figure out communications
 - Figure out pairing over LAN
 - Implement QR-Scanner to initiate connection automatically
