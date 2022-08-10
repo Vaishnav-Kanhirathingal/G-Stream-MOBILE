@@ -20,7 +20,7 @@ import com.google.gson.Gson
 class StreamActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
     private val strengthLimit = 40
-    private val transmitter = ConsoleTransmitter()
+    private val transmitter = ConsoleTransmitter(this)
     private val shiftActive = MutableLiveData(false)
 
     private lateinit var binding: ActivityStreamBinding
