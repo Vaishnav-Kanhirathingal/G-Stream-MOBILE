@@ -25,7 +25,7 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner) {
 
     init {
         controlLive.apply {
-            val sendStr: (padControls: PadControls) -> Unit = {
+            val sendStr: (PadControls) -> Unit = {
                 val str = Gson().toJson(
                     Control(
                         mouseStrength = this.mouseStrength.value!!,
@@ -46,21 +46,33 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner) {
         }
     }
 
+    /**
+     * saves value for if the shift button is pressed
+     */
     fun shiftPress(pressed: Boolean) {
         Log.d(TAG, "shift pressed = $pressed")
         controlLive.shift.value = pressed
     }
 
+    /**
+     * sends the raw values for mouse controls
+     */
     fun leftJoystick(joyStickControls: JoyStickControls) {
         Log.d(TAG, "leftJoystick = ${joyStickControls.name}")
         controlLive.playerMovement.value = joyStickControls
     }
 
+    /**
+     * sends pad button press values
+     */
     fun rightPad(padControls: PadControls) {
         Log.d(TAG, "rightJoystick = ${padControls.name}")
         controlLive.gamePad.value = padControls
     }
 
+    /**
+     * used to send mouse pointer values to the desktop
+     */
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
         controlLive.apply {
@@ -85,6 +97,9 @@ enum class PadControls {
     TRIANGLE, SQUARE, CIRCLE, CROSS, RELEASE
 }
 
+/**
+ * used to create json values to be sent to the desktop
+ */
 data class Control(
     var mouseStrength: Int,
     var mouseAngle: Int,
@@ -93,6 +108,9 @@ data class Control(
     var shift: Boolean
 )
 
+/**
+ * stores live data values for controls
+ */
 data class ControlLiveData(
     var mouseStrength: MutableLiveData<Int>,
     var mouseAngle: MutableLiveData<Int>,
