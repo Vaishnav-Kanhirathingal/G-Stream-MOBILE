@@ -57,7 +57,7 @@ class StreamActivity : AppCompatActivity() {
         binding.apply {
             shiftImageButton.setOnClickListener { shiftActive.value = !shiftActive.value!! }
             shiftActive.observe(this@StreamActivity) {
-                // TODO: notify shift button is no longer pressed
+                transmitter.shiftPress(it)
                 shiftActiveImageView.setImageResource(if (it) R.color.green else R.color.red)
             }
 

@@ -46,6 +46,11 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner) {
         }
     }
 
+    fun shiftPress(pressed: Boolean) {
+        Log.d(TAG, "shift pressed = $pressed")
+        controlLive.shift.value = pressed
+    }
+
     fun leftJoystick(joyStickControls: JoyStickControls) {
         Log.d(TAG, "leftJoystick = ${joyStickControls.name}")
         controlLive.playerMovement.value = joyStickControls
