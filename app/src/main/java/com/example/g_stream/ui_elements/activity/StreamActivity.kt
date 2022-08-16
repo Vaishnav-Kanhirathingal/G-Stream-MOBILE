@@ -61,8 +61,9 @@ class StreamActivity : AppCompatActivity() {
                 shiftActiveImageView.setImageResource(if (it) R.color.green else R.color.red)
             }
 
+            var control = JoyStickControls.RELEASE
             leftJoystick.setOnMoveListener { angle, strength ->
-                transmitter.leftJoystick(
+                val temp =
                     if (strength <= strengthLimit) {
                         JoyStickControls.RELEASE
                     } else {
@@ -73,7 +74,10 @@ class StreamActivity : AppCompatActivity() {
                             else -> JoyStickControls.STICK_RIGHT
                         }
                     }
-                )
+                if (temp != control) {
+                    control = temp
+                    transmitter.leftJoystick(control)
+                }
             }
         }
     }

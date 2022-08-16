@@ -15,7 +15,7 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner) {
     // TODO: perform transmission based on parameters received
     private val TAG = this::class.java.simpleName
     private val controlLive =
-        ControlLiveData(
+        ControlLive(
             mouseAngle = MutableLiveData(0),
             mouseStrength = MutableLiveData(0),
             gamePad = MutableLiveData(PadControls.RELEASE),
@@ -35,8 +35,8 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner) {
                         shift = this.shift.value!!
                     )
                 )
-                Log.d(TAG, "str = $str")
-                // TODO: send json string to desktop
+                Log.d(TAG, "json str = $str")
+                // TODO: send json string [str] to desktop
             }
             mouseAngle.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
             mouseStrength.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
@@ -58,8 +58,8 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner) {
      * sends the raw values for mouse controls
      */
     fun leftJoystick(joyStickControls: JoyStickControls) {
-        Log.d(TAG, "leftJoystick = ${joyStickControls.name}")
         controlLive.playerMovement.value = joyStickControls
+        Log.d(TAG,"value received = $joyStickControls, old = ${controlLive.playerMovement.value}")
     }
 
     /**
@@ -111,7 +111,7 @@ data class Control(
 /**
  * stores live data values for controls
  */
-data class ControlLiveData(
+data class ControlLive(
     var mouseStrength: MutableLiveData<Int>,
     var mouseAngle: MutableLiveData<Int>,
     var gamePad: MutableLiveData<PadControls>,
