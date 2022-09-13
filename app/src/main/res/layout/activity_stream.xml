@@ -27,7 +27,7 @@
         android:id="@+id/shift_image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/translucent"
+        android:background="@color/pad_transparency"
         android:src="@drawable/up_24"
         android:tooltipText="press this to activate shift key"
         app:layout_constraintBottom_toTopOf="@id/left_joystick"
@@ -49,8 +49,8 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/right_padding"
-        app:JV_backgroundColor="@color/translucent"
-        app:JV_buttonColor="@color/white"
+        app:JV_backgroundColor="@color/pad_transparency"
+        app:JV_buttonColor="@color/joystick_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -72,7 +72,7 @@
             android:id="@+id/triangle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/translucent"
+            android:background="@color/pad_transparency"
             android:src="@drawable/triangle_24" />
 
         <ImageView
@@ -83,7 +83,7 @@
             android:id="@+id/square_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/translucent"
+            android:background="@color/pad_transparency"
             android:src="@drawable/square_24" />
 
         <ImageView
@@ -94,7 +94,7 @@
             android:id="@+id/circle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/translucent"
+            android:background="@color/pad_transparency"
             android:src="@drawable/circle_24" />
 
         <ImageView
@@ -105,7 +105,7 @@
             android:id="@+id/cross_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/translucent"
+            android:background="@color/pad_transparency"
             android:src="@drawable/closed_cross_24" />
 
         <ImageView
@@ -118,8 +118,8 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/right_padding"
-        app:JV_backgroundColor="@color/translucent"
-        app:JV_buttonColor="@color/white"
+        app:JV_backgroundColor="@color/pad_transparency"
+        app:JV_buttonColor="@color/joystick_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
