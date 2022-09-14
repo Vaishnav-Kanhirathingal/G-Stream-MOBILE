@@ -44,7 +44,6 @@ class StreamActivity : AppCompatActivity() {
     }
 
     private fun applyBinding() {
-        goFullScreen()
         applyLeftSectionBinding()
         applyRightSectionBinding()
     }
@@ -103,6 +102,7 @@ class StreamActivity : AppCompatActivity() {
      * makes the activity go full screen.
      */
     private fun goFullScreen() {
+        // TODO: check if usability of this function.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.hide()
         hideHandler.removeCallbacks { supportActionBar?.show() }
@@ -119,10 +119,5 @@ class StreamActivity : AppCompatActivity() {
                             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
             }
         }, 300L)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        goFullScreen()
     }
 }
