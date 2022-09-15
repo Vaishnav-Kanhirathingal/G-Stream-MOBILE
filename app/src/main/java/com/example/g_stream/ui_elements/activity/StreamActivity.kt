@@ -20,7 +20,7 @@ import com.google.gson.Gson
 class StreamActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
     private val strengthLimit = 40
-    private val transmitter = ConsoleTransmitter(this)
+    private lateinit var transmitter: ConsoleTransmitter
     private val shiftActive = MutableLiveData(false)
 
     private lateinit var binding: ActivityStreamBinding
@@ -28,15 +28,14 @@ class StreamActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val connectionData: ConnectionData = getFromIntent()
+        transmitter = ConsoleTransmitter(this, getConnectionDataFromIntent())
 
         binding = ActivityStreamBinding.inflate(layoutInflater)
         setContentView(binding.root)
         applyBinding()
     }
 
-    private fun getFromIntent(): ConnectionData {
+    private fun getConnectionDataFromIntent(): ConnectionData {
         intent.getStringExtra(ConnectionData.key).let {
             Log.d(TAG, "data received = ${it!!}")
             return Gson().fromJson(it, ConnectionData::class.java)

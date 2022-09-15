@@ -11,7 +11,7 @@ import com.google.gson.Gson
 /**
  * this class is to be used for control transmission to the desktop device.
  */
-class ConsoleTransmitter(lifecycleOwner: LifecycleOwner) {
+class ConsoleTransmitter(lifecycleOwner: LifecycleOwner, connectionData: ConnectionData) {
     // TODO: perform transmission based on parameters received
     private val TAG = this::class.java.simpleName
     private val controlLive =
@@ -59,7 +59,7 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner) {
      */
     fun leftJoystick(joyStickControls: JoyStickControls) {
         controlLive.playerMovement.value = joyStickControls
-        Log.d(TAG,"value received = $joyStickControls, old = ${controlLive.playerMovement.value}")
+        Log.d(TAG, "value received = $joyStickControls, old = ${controlLive.playerMovement.value}")
     }
 
     /**
