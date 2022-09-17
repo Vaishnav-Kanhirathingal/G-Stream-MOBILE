@@ -11,7 +11,10 @@ import com.google.gson.Gson
 /**
  * this class is to be used for control transmission to the desktop device.
  */
-class ConsoleTransmitter(lifecycleOwner: LifecycleOwner, connectionData: ConnectionData) {
+class ConsoleTransmitter(
+    private val lifecycleOwner: LifecycleOwner,
+    private val connectionData: ConnectionData
+) {
     // TODO: perform transmission based on parameters received
     private val TAG = this::class.java.simpleName
     private val controlLive =
@@ -22,6 +25,11 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner, connectionData: Connect
             playerMovement = MutableLiveData(RELEASE),
             shift = MutableLiveData(false),
         )
+
+//    lateinit var controlSocket : Socket
+//    lateinit var controlOutputStream :DataOutputStream
+
+    // TODO: switch to separate thread
 
     init {
         controlLive.apply {
@@ -36,6 +44,7 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner, connectionData: Connect
                     )
                 )
                 Log.d(TAG, "json str = $str")
+//                sendString(str)
                 // TODO: send json string [str] to desktop
             }
             mouseAngle.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
@@ -44,7 +53,18 @@ class ConsoleTransmitter(lifecycleOwner: LifecycleOwner, connectionData: Connect
             playerMovement.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
             shift.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
         }
+//        CoroutineScope(Dispatchers.IO).launch {
+//            controlSocket = Socket(connectionData.serverIpAddress, connectionData.controlPort)
+//            controlOutputStream = DataOutputStream(controlSocket.getOutputStream())
+//
+//        }
     }
+//
+//    fun sendString(str: String) {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            controlOutputStream.apply { writeUTF(str);flush() }
+//        }
+//    }
 
     /**
      * saves value for if the shift button is pressed
