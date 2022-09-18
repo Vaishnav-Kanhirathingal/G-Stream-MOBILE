@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.FragmentScanBinding
 import com.example.g_stream.ui_elements.activity.StreamActivity
-import com.example.g_stream.viewmodel.StreamViewModel
+import com.example.g_stream.viewmodel.ScanViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.mlkit.vision.barcode.BarcodeScanner
@@ -60,7 +60,7 @@ class ScanFragment : Fragment() {
         ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.requireActivity().application)
-        )[StreamViewModel::class.java]
+        )[ScanViewModel::class.java]
             .processCameraProvider
             .observe(viewLifecycleOwner) {
                 cameraProvider = it

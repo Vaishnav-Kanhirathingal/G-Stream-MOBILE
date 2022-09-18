@@ -11,16 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.example.g_stream.R
 import com.example.g_stream.connection.ConnectionData
-import com.example.g_stream.connection.ConsoleTransmitter
-import com.example.g_stream.connection.JoyStickControls
-import com.example.g_stream.connection.PadControls
 import com.example.g_stream.databinding.ActivityStreamBinding
+import com.example.g_stream.viewmodel.JoyStickControls
+import com.example.g_stream.viewmodel.PadControls
+import com.example.g_stream.viewmodel.StreamViewModel
 import com.google.gson.Gson
 
 class StreamActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
     private val strengthLimit = 40
-    private lateinit var transmitter: ConsoleTransmitter
+    private lateinit var viewModel: StreamViewModel
     private val shiftActive = MutableLiveData(false)
 
     private lateinit var binding: ActivityStreamBinding
@@ -28,7 +28,7 @@ class StreamActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        transmitter = ConsoleTransmitter(this, getConnectionDataFromIntent())
+        viewModel = StreamViewModel(this, getConnectionDataFromIntent())
 
         binding = ActivityStreamBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -55,7 +55,7 @@ class StreamActivity : AppCompatActivity() {
         binding.apply {
             shiftImageButton.setOnClickListener { shiftActive.value = !shiftActive.value!! }
             shiftActive.observe(this@StreamActivity) {
-                transmitter.shiftPress(it)
+                viewModel.shiftPress(it)
                 shiftActiveImageView.setImageResource(if (it) R.color.green else R.color.red)
             }
 
@@ -74,7 +74,7 @@ class StreamActivity : AppCompatActivity() {
                     }
                 if (temp != control) {
                     control = temp
-                    transmitter.leftJoystick(control)
+                    viewModel.leftJoystick(control)
                 }
             }
         }
@@ -87,12 +87,12 @@ class StreamActivity : AppCompatActivity() {
      */
     private fun applyRightSectionBinding() {
         binding.apply {
-            triangleButton.setOnClickListener { transmitter.rightPad(PadControls.TRIANGLE) }
-            squareButton.setOnClickListener { transmitter.rightPad(PadControls.SQUARE) }
-            circleButton.setOnClickListener { transmitter.rightPad(PadControls.CIRCLE) }
-            crossButton.setOnClickListener { transmitter.rightPad(PadControls.CROSS) }
+            triangleButton.setOnClickListener { viewModel.rightPad(PadControls.TRIANGLE) }
+            squareButton.setOnClickListener { viewModel.rightPad(PadControls.SQUARE) }
+            circleButton.setOnClickListener { viewModel.rightPad(PadControls.CIRCLE) }
+            crossButton.setOnClickListener { viewModel.rightPad(PadControls.CROSS) }
             rightJoystick.setOnMoveListener { angle, strength ->
-                transmitter.rightJoystick(angle, strength)
+                viewModel.rightJoystick(angle, strength)
             }
         }
     }
