@@ -25,8 +25,7 @@ class StreamViewModel(
     private val TAG = this::class.java.simpleName
     private val controlLive =
         ControlLive(
-            mouseAngle = MutableLiveData(0),
-            mouseStrength = MutableLiveData(0),
+            mouseData = MutableLiveData(MouseData(0, 0)),
             gamePad = MutableLiveData(PadControls.RELEASE),
             playerMovement = MutableLiveData(JoyStickControls.RELEASE),
             shift = MutableLiveData(false),
@@ -42,19 +41,16 @@ class StreamViewModel(
             val sendStr: (PadControls) -> Unit = {
                 val str = Gson().toJson(
                     Control(
-                        mouseStrength = this.mouseStrength.value!!,
-                        mouseAngle = this.mouseAngle.value!!,
+                        mouseData = this.mouseData.value!!,
                         gamePad = it,
                         playerMovement = this.playerMovement.value!!,
                         shift = this.shift.value!!
                     )
                 )
-                Log.d(TAG, "json str = $str")
                 sendString(str)
                 // TODO: send json string [str] to desktop
             }
-            mouseAngle.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
-            mouseStrength.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
+            mouseData.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
             gamePad.observe(lifecycleOwner) { sendStr(this.gamePad.value!!) }
             playerMovement.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
             shift.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
@@ -70,6 +66,7 @@ class StreamViewModel(
     }
 
     private fun sendString(str: String) {
+        Log.d(TAG, "json str = $str")
 //        try {
 //            CoroutineScope(Dispatchers.IO).launch {
 //                controlOutputStream.apply { writeUTF(str);flush() }
@@ -112,11 +109,13 @@ class StreamViewModel(
      */
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
-        controlLive.apply {
-            mouseAngle.value = angle
-            mouseStrength.value = strength
-            // TODO: should be a single variable change
+        MouseData(
+            mouseStrength = strength,
+            mouseAngle = angle
+        ).apply {
+            controlLive.mouseData.value = this
         }
+        // TODO: should be a single variable change
     }
 }
 
@@ -139,8 +138,7 @@ enum class PadControls {
  * used to create json values to be sent to the desktop
  */
 data class Control(
-    var mouseStrength: Int,
-    var mouseAngle: Int,
+    var mouseData: MouseData,
     var gamePad: PadControls,
     var playerMovement: JoyStickControls,
     var shift: Boolean
@@ -150,9 +148,13 @@ data class Control(
  * stores live data values for controls
  */
 data class ControlLive(
-    var mouseStrength: MutableLiveData<Int>,
-    var mouseAngle: MutableLiveData<Int>,
+    var mouseData: MutableLiveData<MouseData>,
     var gamePad: MutableLiveData<PadControls>,
     var playerMovement: MutableLiveData<JoyStickControls>,
     var shift: MutableLiveData<Boolean>
+)
+
+data class MouseData(
+    var mouseStrength: Int,
+    var mouseAngle: Int,
 )
