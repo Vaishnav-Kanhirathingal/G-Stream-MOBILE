@@ -12,13 +12,14 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.DataOutputStream
 import java.net.Socket
 
 class StreamViewModel(
     private val lifecycleOwner: LifecycleOwner,
-    private val connectionData: ConnectionData
-
+    private val connectionData: ConnectionData,
+    private val showConnectionError: () -> Unit
 ) : ViewModel() {
 
     // TODO: perform transmission based on parameters received
@@ -31,8 +32,8 @@ class StreamViewModel(
             shift = MutableLiveData(false),
         )
 
-    lateinit var controlSocket: Socket
-    lateinit var controlOutputStream: DataOutputStream
+    private var controlSocket: Socket? = null
+    private var controlOutputStream: DataOutputStream? = null
 
     // TODO: switch to separate thread
 
@@ -58,22 +59,25 @@ class StreamViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 controlSocket = Socket(connectionData.serverIpAddress, connectionData.controlPort)
-                controlOutputStream = DataOutputStream(controlSocket.getOutputStream())
+                controlOutputStream = DataOutputStream(controlSocket?.getOutputStream())
             } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    showConnectionError()
+                }
                 e.printStackTrace()
             }
         }
     }
 
     private fun sendString(str: String) {
-        Log.d(TAG, "json str = $str")
-//        try {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                controlOutputStream.apply { writeUTF(str);flush() }
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
+        Log.d(TAG, "json str = $str, connection status = ${controlSocket?.isConnected}")
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                controlOutputStream?.apply { writeUTF(str);flush() }
+            } catch (e: Exception) {
+                Log.e(TAG, "error = ${e.message}")
+            }
+        }
     }
 
 
@@ -89,11 +93,10 @@ class StreamViewModel(
      * sends the raw values for mouse controls
      */
     fun leftJoystick(joyStickControls: JoyStickControls) {
-        controlLive.playerMovement.value = joyStickControls
         Log.d(
-            TAG,
-            "value received = $joyStickControls, old = ${controlLive.playerMovement.value}"
+            TAG, "value received = $joyStickControls, old = ${controlLive.playerMovement.value}"
         )
+        controlLive.playerMovement.value = joyStickControls
     }
 
     /**
@@ -110,8 +113,7 @@ class StreamViewModel(
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
         MouseData(
-            mouseStrength = strength,
-            mouseAngle = angle
+            mouseStrength = strength, mouseAngle = angle
         ).apply {
             controlLive.mouseData.value = this
         }

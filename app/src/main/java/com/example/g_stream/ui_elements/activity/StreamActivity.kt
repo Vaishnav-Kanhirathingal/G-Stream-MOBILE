@@ -2,11 +2,11 @@ package com.example.g_stream.ui_elements.activity
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.example.g_stream.R
@@ -24,11 +24,25 @@ class StreamActivity : AppCompatActivity() {
     private val shiftActive = MutableLiveData(false)
 
     private lateinit var binding: ActivityStreamBinding
-    private val hideHandler = Handler(Looper.myLooper()!!)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = StreamViewModel(this, getConnectionDataFromIntent())
+        viewModel = StreamViewModel(
+            lifecycleOwner = this,
+            connectionData = getConnectionDataFromIntent(),
+            showConnectionError = {
+                Toast.makeText(this, "Error initiating a connection", Toast.LENGTH_SHORT).show()
+                AlertDialog
+                    .Builder(this)
+                    .setMessage("Error initiating a connection, return back to scan screen and re-initiate a connection?")
+                    .setPositiveButton("yes") { _, _ ->
+                        /** TODO: go back */
+                        finish()
+                    }
+                    .setNegativeButton("no") { _, _ -> }
+                    .show()
+            }
+        )
 
         binding = ActivityStreamBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -45,6 +59,7 @@ class StreamActivity : AppCompatActivity() {
     private fun applyBinding() {
         applyLeftSectionBinding()
         applyRightSectionBinding()
+        goFullScreen()
     }
 
     /**
@@ -98,25 +113,24 @@ class StreamActivity : AppCompatActivity() {
     }
 
     /**
-     * makes the activity go full screen.
+     * hides the navigation bar
      */
     private fun goFullScreen() {
-        // TODO: check if usability of this function.
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.hide()
-        hideHandler.removeCallbacks { supportActionBar?.show() }
-        hideHandler.postDelayed({
-            if (Build.VERSION.SDK_INT >= 30) {
-                binding.fullscreenContent.windowInsetsController?.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-            } else {
-                binding.fullscreenContent.systemUiVisibility =
-                    View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                            View.SYSTEM_UI_FLAG_FULLSCREEN or
-                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            }
-        }, 300L)
+        if (Build.VERSION.SDK_INT >= 30) {
+            binding.fullscreenContent.windowInsetsController?.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+        } else {
+            binding.fullscreenContent.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LOW_PROFILE or
+                        View.SYSTEM_UI_FLAG_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        goFullScreen()
     }
 }
