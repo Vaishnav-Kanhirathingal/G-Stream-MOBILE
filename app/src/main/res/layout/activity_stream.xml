@@ -35,20 +35,11 @@
         app:layout_constraintRight_toRightOf="@id/left_joystick"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/shift_active_image_view"
-        android:layout_width="@dimen/active_shift"
-        android:layout_height="@dimen/active_shift"
-        android:layout_margin="@dimen/active_shift"
-        app:layout_constraintBottom_toTopOf="@id/shift_image_button"
-        app:layout_constraintRight_toLeftOf="@id/shift_image_button"
-        tools:src="#00ff00" />
-
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/left_joystick"
-        android:layout_width="150dp"
+        android:layout_width="@dimen/joystick_size"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/right_padding"
+        android:layout_margin="@dimen/control_spacing"
         app:JV_backgroundColor="@color/pad_transparency"
         app:JV_buttonColor="@color/joystick_button"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -115,9 +106,9 @@
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/right_joystick"
-        android:layout_width="150dp"
+        android:layout_width="@dimen/joystick_size"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/right_padding"
+        android:layout_margin="@dimen/control_spacing"
         app:JV_backgroundColor="@color/pad_transparency"
         app:JV_buttonColor="@color/joystick_button"
         app:layout_constraintBottom_toBottomOf="parent"

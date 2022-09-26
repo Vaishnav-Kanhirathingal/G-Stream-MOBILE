@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
-import com.example.g_stream.R
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.ActivityStreamBinding
 import com.example.g_stream.viewmodel.JoyStickControls
@@ -69,10 +68,7 @@ class StreamActivity : AppCompatActivity() {
     private fun applyLeftSectionBinding() {
         binding.apply {
             shiftImageButton.setOnClickListener { shiftActive.value = !shiftActive.value!! }
-            shiftActive.observe(this@StreamActivity) {
-                viewModel.shiftPress(it)
-                shiftActiveImageView.setImageResource(if (it) R.color.green else R.color.red)
-            }
+            shiftActive.observe(this@StreamActivity) { viewModel.shiftPress(it) }
 
             var control = JoyStickControls.RELEASE
             leftJoystick.setOnMoveListener { angle, strength ->

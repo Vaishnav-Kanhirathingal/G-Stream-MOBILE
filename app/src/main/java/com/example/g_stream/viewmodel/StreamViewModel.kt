@@ -112,9 +112,7 @@ class StreamViewModel(
      */
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
-        MouseData(
-            mouseStrength = strength, mouseAngle = angle
-        ).apply {
+        MouseData(mouseStrength = strength, mouseAngle = angle).apply {
             controlLive.mouseData.value = this
         }
         // TODO: should be a single variable change

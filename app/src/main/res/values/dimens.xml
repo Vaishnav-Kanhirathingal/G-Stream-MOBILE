@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="right_padding">40dp</dimen>
-    <dimen name="active_shift">4dp</dimen>
+    <dimen name="control_spacing">40dp</dimen>
+    <dimen name="joystick_size">150dp</dimen>
+    <dimen name="controller_icon_size">40dp</dimen>
 </resources>

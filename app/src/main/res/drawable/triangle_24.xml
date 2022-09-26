@@ -1,6 +1,6 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
+    android:width="@dimen/controller_icon_size"
+    android:height="@dimen/controller_icon_size"
     android:tint="@color/pad_buttons"
     android:viewportWidth="48"
     android:viewportHeight="48">
