@@ -17,49 +17,62 @@ import java.io.DataOutputStream
 import java.net.Socket
 
 class StreamViewModel(
-    private val lifecycleOwner: LifecycleOwner,
+    lifecycleOwner: LifecycleOwner,
     private val connectionData: ConnectionData,
     private val showConnectionError: () -> Unit
 ) : ViewModel() {
 
     // TODO: perform transmission based on parameters received
     private val TAG = this::class.java.simpleName
-    private val controlLive =
-        ControlLive(
-            mouseData = MutableLiveData(MouseData(0, 0)),
-            gamePad = MutableLiveData(PadControls.RELEASE),
-            playerMovement = MutableLiveData(JoyStickControls.RELEASE),
-            shift = MutableLiveData(false),
-        )
+    private var mouseData = MutableLiveData(MouseData(0, 0))
+    private var gamePad = MutableLiveData(PadControls.RELEASE)
+    private var playerMovement = MutableLiveData(RELEASE)
+    private var shift = MutableLiveData(false)
 
-    private var controlSocket: Socket? = null
-    private var controlOutputStream: DataOutputStream? = null
-
-    // TODO: switch to separate thread
+    private var movementOutputStream: DataOutputStream? = null
+    private var gamePadOutputStream: DataOutputStream? = null
+    private var mouseTrackOutputStream: DataOutputStream? = null
+    private var shiftOutputStream: DataOutputStream? = null
 
     init {
-        controlLive.apply {
-            val sendStr: (PadControls) -> Unit = {
-                val str = Gson().toJson(
-                    Control(
-                        mouseData = this.mouseData.value!!,
-                        gamePad = it,
-                        playerMovement = this.playerMovement.value!!,
-                        shift = this.shift.value!!
-                    )
-                )
-                sendString(str)
-                // TODO: send json string [str] to desktop
+        mouseData.observe(lifecycleOwner) {
+            CoroutineScope(Dispatchers.IO).launch {
+                mouseTrackOutputStream?.apply { writeUTF(Gson().toJson(it));flush() }
             }
-            mouseData.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
-            gamePad.observe(lifecycleOwner) { sendStr(this.gamePad.value!!) }
-            playerMovement.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
-            shift.observe(lifecycleOwner) { sendStr(PadControls.RELEASE) }
+        }
+        gamePad.observe(lifecycleOwner) {
+            CoroutineScope(Dispatchers.IO).launch {
+                gamePadOutputStream?.apply { writeUTF(Gson().toJson(it));flush() }
+            }
+        }
+        playerMovement.observe(lifecycleOwner) {
+            CoroutineScope(Dispatchers.IO).launch {
+                movementOutputStream?.apply { writeUTF(Gson().toJson(it));flush() }
+            }
+        }
+        shift.observe(lifecycleOwner) {
+            CoroutineScope(Dispatchers.IO).launch {
+                shiftOutputStream?.apply { writeUTF(Gson().toJson(it));flush() }
+            }
         }
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                controlSocket = Socket(connectionData.serverIpAddress, connectionData.controlPort)
-                controlOutputStream = DataOutputStream(controlSocket?.getOutputStream())
+                movementOutputStream = DataOutputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.movementPort)
+                        .getOutputStream()
+                )
+                gamePadOutputStream = DataOutputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.gamePadPort)
+                        .getOutputStream()
+                )
+                mouseTrackOutputStream = DataOutputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.mouseTrackPort)
+                        .getOutputStream()
+                )
+                shiftOutputStream = DataOutputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.shiftPort)
+                        .getOutputStream()
+                )
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     showConnectionError()
@@ -69,34 +82,20 @@ class StreamViewModel(
         }
     }
 
-    private fun sendString(str: String) {
-        Log.d(TAG, "json str = $str, connection status = ${controlSocket?.isConnected}")
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                controlOutputStream?.apply { writeUTF(str);flush() }
-            } catch (e: Exception) {
-                Log.e(TAG, "error = ${e.message}")
-            }
-        }
-    }
-
-
     /**
      * saves value for if the shift button is pressed
      */
     fun shiftPress(pressed: Boolean) {
         Log.d(TAG, "shift pressed = $pressed")
-        controlLive.shift.value = pressed
+        shift.value = pressed
     }
 
     /**
      * sends the raw values for mouse controls
      */
     fun leftJoystick(joyStickControls: JoyStickControls) {
-        Log.d(
-            TAG, "value received = $joyStickControls, old = ${controlLive.playerMovement.value}"
-        )
-        controlLive.playerMovement.value = joyStickControls
+        Log.d(TAG, "value received = $joyStickControls, old = ${playerMovement.value}")
+        playerMovement.value = joyStickControls
     }
 
     /**
@@ -104,7 +103,7 @@ class StreamViewModel(
      */
     fun rightPad(padControls: PadControls) {
         Log.d(TAG, "rightJoystick = ${padControls.name}")
-        controlLive.gamePad.value = padControls
+        gamePad.value = padControls
     }
 
     /**
@@ -112,9 +111,7 @@ class StreamViewModel(
      */
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
-        MouseData(mouseStrength = strength, mouseAngle = angle).apply {
-            controlLive.mouseData.value = this
-        }
+        mouseData.value = MouseData(mouseStrength = strength, mouseAngle = angle)
         // TODO: should be a single variable change
     }
 }
@@ -133,26 +130,6 @@ enum class JoyStickControls {
 enum class PadControls {
     TRIANGLE, SQUARE, CIRCLE, CROSS, RELEASE
 }
-
-/**
- * used to create json values to be sent to the desktop
- */
-data class Control(
-    var mouseData: MouseData,
-    var gamePad: PadControls,
-    var playerMovement: JoyStickControls,
-    var shift: Boolean
-)
-
-/**
- * stores live data values for controls
- */
-data class ControlLive(
-    var mouseData: MutableLiveData<MouseData>,
-    var gamePad: MutableLiveData<PadControls>,
-    var playerMovement: MutableLiveData<JoyStickControls>,
-    var shift: MutableLiveData<Boolean>
-)
 
 data class MouseData(
     var mouseStrength: Int,
