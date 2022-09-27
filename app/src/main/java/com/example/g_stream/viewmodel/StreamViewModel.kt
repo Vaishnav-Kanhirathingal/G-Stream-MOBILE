@@ -2,7 +2,6 @@ package com.example.g_stream.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.viewmodel.JoyStickControls.*
@@ -24,10 +23,6 @@ class StreamViewModel(
 
     // TODO: perform transmission based on parameters received
     private val TAG = this::class.java.simpleName
-    private var mouseData = MutableLiveData(MouseData(0, 0))
-    private var gamePad = MutableLiveData(PadControls.RELEASE)
-    private var playerMovement = MutableLiveData(RELEASE)
-    private var shift = MutableLiveData(false)
 
     private var movementOutputStream: DataOutputStream? = null
     private var gamePadOutputStream: DataOutputStream? = null
@@ -35,26 +30,6 @@ class StreamViewModel(
     private var shiftOutputStream: DataOutputStream? = null
 
     init {
-        mouseData.observe(lifecycleOwner) {
-            CoroutineScope(Dispatchers.IO).launch {
-                mouseTrackOutputStream?.apply { writeUTF(Gson().toJson(it));flush() }
-            }
-        }
-        gamePad.observe(lifecycleOwner) {
-            CoroutineScope(Dispatchers.IO).launch {
-                gamePadOutputStream?.apply { writeUTF(Gson().toJson(it));flush() }
-            }
-        }
-        playerMovement.observe(lifecycleOwner) {
-            CoroutineScope(Dispatchers.IO).launch {
-                movementOutputStream?.apply { writeUTF(Gson().toJson(it));flush() }
-            }
-        }
-        shift.observe(lifecycleOwner) {
-            CoroutineScope(Dispatchers.IO).launch {
-                shiftOutputStream?.apply { writeUTF(Gson().toJson(it));flush() }
-            }
-        }
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 movementOutputStream = DataOutputStream(
@@ -87,15 +62,19 @@ class StreamViewModel(
      */
     fun shiftPress(pressed: Boolean) {
         Log.d(TAG, "shift pressed = $pressed")
-        shift.value = pressed
+        CoroutineScope(Dispatchers.IO).launch {
+            shiftOutputStream?.apply { writeUTF(Gson().toJson(pressed));flush() }
+        }
     }
 
     /**
      * sends the raw values for mouse controls
      */
     fun leftJoystick(joyStickControls: JoyStickControls) {
-        Log.d(TAG, "value received = $joyStickControls, old = ${playerMovement.value}")
-        playerMovement.value = joyStickControls
+        Log.d(TAG, "value received = $joyStickControls")
+        CoroutineScope(Dispatchers.IO).launch {
+            movementOutputStream?.apply { writeUTF(Gson().toJson(joyStickControls));flush() }
+        }
     }
 
     /**
@@ -103,7 +82,9 @@ class StreamViewModel(
      */
     fun rightPad(padControls: PadControls) {
         Log.d(TAG, "rightJoystick = ${padControls.name}")
-        gamePad.value = padControls
+        CoroutineScope(Dispatchers.IO).launch {
+            gamePadOutputStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
+        }
     }
 
     /**
@@ -111,8 +92,12 @@ class StreamViewModel(
      */
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
-        mouseData.value = MouseData(mouseStrength = strength, mouseAngle = angle)
-        // TODO: should be a single variable change
+        CoroutineScope(Dispatchers.IO).launch {
+            mouseTrackOutputStream?.apply {
+                writeUTF(Gson().toJson(MouseData(mouseStrength = strength, mouseAngle = angle)))
+                flush()
+            }
+        }
     }
 }
 
