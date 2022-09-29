@@ -8,7 +8,6 @@ import android.view.WindowInsets
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.ActivityStreamBinding
 import com.example.g_stream.viewmodel.JoyStickControls
@@ -18,9 +17,8 @@ import com.google.gson.Gson
 
 class StreamActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
-    private val strengthLimit = 40
+    private val strengthLimit = 60
     private lateinit var viewModel: StreamViewModel
-    private val shiftActive = MutableLiveData(false)
 
     private lateinit var binding: ActivityStreamBinding
 
@@ -67,8 +65,11 @@ class StreamActivity : AppCompatActivity() {
      */
     private fun applyLeftSectionBinding() {
         binding.apply {
-            shiftImageButton.setOnClickListener { shiftActive.value = !shiftActive.value!! }
-            shiftActive.observe(this@StreamActivity) { viewModel.shiftPress(it) }
+            var shiftActive = false
+            shiftImageButton.setOnClickListener {
+                shiftActive = !shiftActive
+                viewModel.shiftPress(shiftActive)
+            }
 
             var control = JoyStickControls.RELEASE
             leftJoystick.setOnMoveListener { angle, strength ->

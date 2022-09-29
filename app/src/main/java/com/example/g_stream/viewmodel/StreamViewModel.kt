@@ -29,6 +29,8 @@ class StreamViewModel(
     private var mouseTrackOutputStream: DataOutputStream? = null
     private var shiftOutputStream: DataOutputStream? = null
 
+    private val scope = CoroutineScope(Dispatchers.IO)
+
     init {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -62,7 +64,7 @@ class StreamViewModel(
      */
     fun shiftPress(pressed: Boolean) {
         Log.d(TAG, "shift pressed = $pressed")
-        CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             shiftOutputStream?.apply { writeUTF(Gson().toJson(pressed));flush() }
         }
     }
@@ -72,7 +74,7 @@ class StreamViewModel(
      */
     fun leftJoystick(joyStickControls: JoyStickControls) {
         Log.d(TAG, "value received = $joyStickControls")
-        CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             movementOutputStream?.apply { writeUTF(Gson().toJson(joyStickControls));flush() }
         }
     }
@@ -82,7 +84,7 @@ class StreamViewModel(
      */
     fun rightPad(padControls: PadControls) {
         Log.d(TAG, "rightJoystick = ${padControls.name}")
-        CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             gamePadOutputStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
         }
     }
@@ -92,7 +94,7 @@ class StreamViewModel(
      */
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
-        CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             mouseTrackOutputStream?.apply {
                 writeUTF(Gson().toJson(MouseData(mouseStrength = strength, mouseAngle = angle)))
                 flush()
