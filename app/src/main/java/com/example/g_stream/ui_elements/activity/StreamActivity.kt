@@ -103,9 +103,13 @@ class StreamActivity : AppCompatActivity() {
             squareButton.setOnClickListener { viewModel.rightPad(PadControls.SQUARE) }
             circleButton.setOnClickListener { viewModel.rightPad(PadControls.CIRCLE) }
             crossButton.setOnClickListener { viewModel.rightPad(PadControls.CROSS) }
-            rightJoystick.setOnMoveListener { angle, strength ->
-                viewModel.rightJoystick(angle, strength)
-            }
+
+            rightJoystick.setOnMoveListener(
+                { angle, strength ->
+                    viewModel.rightJoystick(angle, strength)
+                },
+                10
+            )
         }
     }
 
