@@ -32,10 +32,7 @@ class StreamActivity : AppCompatActivity() {
                 AlertDialog
                     .Builder(this)
                     .setMessage("Error initiating a connection, return back to scan screen and re-initiate a connection?")
-                    .setPositiveButton("yes") { _, _ ->
-                        /** TODO: go back */
-                        finish()
-                    }
+                    .setPositiveButton("yes") { _, _ -> finish() }
                     .setNegativeButton("no") { _, _ -> }
                     .show()
             }
@@ -103,12 +100,9 @@ class StreamActivity : AppCompatActivity() {
             squareButton.setOnClickListener { viewModel.rightPad(PadControls.SQUARE) }
             circleButton.setOnClickListener { viewModel.rightPad(PadControls.CIRCLE) }
             crossButton.setOnClickListener { viewModel.rightPad(PadControls.CROSS) }
-
             rightJoystick.setOnMoveListener(
-                { angle, strength ->
-                    viewModel.rightJoystick(angle, strength)
-                },
-                10
+                { angle, strength -> viewModel.rightJoystick(angle, strength) },
+                16
             )
         }
     }
