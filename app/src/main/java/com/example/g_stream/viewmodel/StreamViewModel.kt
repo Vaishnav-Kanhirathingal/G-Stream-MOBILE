@@ -94,6 +94,7 @@ class StreamViewModel(
      */
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
+        Log.d(TAG, "time stamp")
         scope.launch {
             mouseTrackOutputStream?.apply {
                 writeUTF(Gson().toJson(MouseData(mouseStrength = strength, mouseAngle = angle)))

@@ -102,7 +102,7 @@ class StreamActivity : AppCompatActivity() {
             crossButton.setOnClickListener { viewModel.rightPad(PadControls.CROSS) }
             rightJoystick.setOnMoveListener(
                 { angle, strength -> viewModel.rightJoystick(angle, strength) },
-                16
+                20
             )
         }
     }
