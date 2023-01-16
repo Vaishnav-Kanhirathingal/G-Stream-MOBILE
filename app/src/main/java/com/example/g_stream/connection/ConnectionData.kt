@@ -3,7 +3,8 @@ package com.example.g_stream.connection
 class ConnectionData(
     val serverIpAddress: String,
 
-    val streamPort: Int,
+    val videoPort: Int,
+    val audioPort: Int,
 
     val movementPort: Int,
     val gamePadPort: Int,
