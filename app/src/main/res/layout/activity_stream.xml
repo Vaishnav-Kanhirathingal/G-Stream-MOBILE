@@ -11,30 +11,31 @@
 
     <ImageView
         android:id="@+id/test_image_view"
-        tools:src="@drawable/common_google_signin_btn_text_dark_focused"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="100dp"
-        android:layout_height="match_parent" />
+        tools:src="@drawable/common_google_signin_btn_text_dark_focused" />
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="center"-->
-<!--        android:keepScreenOn="true"-->
-<!--        android:text="@string/dummy_content"-->
-<!--        android:textColor="?attr/fullscreenTextColor"-->
-<!--        android:textSize="50sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:gravity="center"-->
+    <!--        android:keepScreenOn="true"-->
+    <!--        android:text="@string/dummy_content"-->
+    <!--        android:textColor="?attr/fullscreenTextColor"-->
+    <!--        android:textSize="50sp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <ImageButton
         android:id="@+id/shift_image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/pad_transparency"
+        android:contentDescription="Shift button"
         android:src="@drawable/up_24"
         android:tooltipText="press this to activate shift key"
         app:layout_constraintBottom_toTopOf="@id/left_joystick"
@@ -52,64 +53,59 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <GridLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/game_pad_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="3"
         app:layout_constraintBottom_toTopOf="@id/right_joystick"
         app:layout_constraintLeft_toLeftOf="@id/right_joystick"
         app:layout_constraintRight_toRightOf="@id/right_joystick"
         app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <ImageButton
             android:id="@+id/triangle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/pad_transparency"
-            android:src="@drawable/triangle_24" />
+            android:contentDescription="triangle button"
+            android:src="@drawable/triangle_24"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <ImageButton
             android:id="@+id/square_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/pad_transparency"
-            android:src="@drawable/square_24" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:contentDescription="box button"
+            android:src="@drawable/square_24"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/triangle_button"
+            app:layout_constraintTop_toBottomOf="@id/triangle_button" />
 
         <ImageButton
             android:id="@+id/circle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/pad_transparency"
-            android:src="@drawable/circle_24" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:contentDescription="O button"
+            android:src="@drawable/circle_24"
+            app:layout_constraintLeft_toRightOf="@id/triangle_button"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/triangle_button" />
 
         <ImageButton
             android:id="@+id/cross_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/pad_transparency"
-            android:src="@drawable/closed_cross_24" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </GridLayout>
+            android:contentDescription="X button"
+            android:src="@drawable/closed_cross_24"
+            app:layout_constraintLeft_toRightOf="@id/square_button"
+            app:layout_constraintTop_toBottomOf="@id/square_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/right_joystick"

@@ -27,7 +27,6 @@ class StreamActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = StreamViewModel(
-            lifecycleOwner = this,
             connectionData = getConnectionDataFromIntent(),
             showConnectionError = {
                 Toast.makeText(this, "Error initiating a connection", Toast.LENGTH_SHORT).show()

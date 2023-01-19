@@ -3,7 +3,6 @@ package com.example.g_stream.viewmodel
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.viewmodel.data.JoyStickControls
@@ -19,7 +18,6 @@ import java.io.DataOutputStream
 import java.net.Socket
 
 class StreamViewModel(
-    lifecycleOwner: LifecycleOwner,
     private val connectionData: ConnectionData,
     private val showConnectionError: () -> Unit
 ) : ViewModel() {
