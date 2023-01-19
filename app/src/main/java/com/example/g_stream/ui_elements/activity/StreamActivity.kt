@@ -11,9 +11,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.ActivityStreamBinding
-import com.example.g_stream.viewmodel.JoyStickControls
-import com.example.g_stream.viewmodel.PadControls
 import com.example.g_stream.viewmodel.StreamViewModel
+import com.example.g_stream.viewmodel.data.JoyStickControls
+import com.example.g_stream.viewmodel.data.PadControls
 import com.google.gson.Gson
 
 class StreamActivity : AppCompatActivity() {

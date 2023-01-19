@@ -6,8 +6,9 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.example.g_stream.connection.ConnectionData
-import com.example.g_stream.viewmodel.JoyStickControls.*
-import com.example.g_stream.viewmodel.PadControls.*
+import com.example.g_stream.viewmodel.data.JoyStickControls
+import com.example.g_stream.viewmodel.data.MouseData
+import com.example.g_stream.viewmodel.data.PadControls
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -123,23 +124,3 @@ class StreamViewModel(
         }
     }
 }
-
-/**
- * [STICK_RIGHT], [STICK_UP], [STICK_LEFT], [STICK_DOWN], [RELEASE] are used for joystick controls.
- * These are common for both the left and right controls.
- */
-enum class JoyStickControls {
-    STICK_RIGHT, STICK_UP, STICK_LEFT, STICK_DOWN, RELEASE
-}
-
-/**
- * [TRIANGLE], [SQUARE], [CIRCLE], [CROSS] are used for pad controllers
- */
-enum class PadControls {
-    TRIANGLE, SQUARE, CIRCLE, CROSS, RELEASE
-}
-
-data class MouseData(
-    var mouseStrength: Int,
-    var mouseAngle: Int,
-)
