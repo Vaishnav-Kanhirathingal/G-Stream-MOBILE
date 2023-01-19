@@ -1,17 +1,19 @@
 package com.example.g_stream.viewmodel
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.viewmodel.JoyStickControls.*
-import com.example.g_stream.viewmodel.JoyStickControls.RELEASE
 import com.example.g_stream.viewmodel.PadControls.*
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.net.Socket
 
@@ -28,6 +30,7 @@ class StreamViewModel(
     private var gamePadOutputStream: DataOutputStream? = null
     private var mouseTrackOutputStream: DataOutputStream? = null
     private var shiftOutputStream: DataOutputStream? = null
+    private var screenStream: DataInputStream? = null
 
     private val scope = CoroutineScope(Dispatchers.IO)
 
@@ -50,10 +53,12 @@ class StreamViewModel(
                     Socket(connectionData.serverIpAddress, connectionData.shiftPort)
                         .getOutputStream()
                 )
+                screenStream = DataInputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.videoPort)
+                        .getInputStream()
+                )
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    showConnectionError()
-                }
+                withContext(Dispatchers.Main) { showConnectionError() }
                 e.printStackTrace()
             }
         }
@@ -94,11 +99,26 @@ class StreamViewModel(
      */
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
-        Log.d(TAG, "time stamp")
         scope.launch {
             mouseTrackOutputStream?.apply {
                 writeUTF(Gson().toJson(MouseData(mouseStrength = strength, mouseAngle = angle)))
                 flush()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    fun startStreaming(setImage: () -> Unit) {
+        scope.launch {
+            while (true) {
+                try {
+                    val str = screenStream!!.readUTF()
+                    Log.d(TAG, "received = \"${str}\"")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                Thread.sleep(100)
+                // TODO: convert bytes to image and set it
             }
         }
     }
