@@ -1,5 +1,6 @@
 package com.example.g_stream.ui_elements.activity
 
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -61,7 +62,18 @@ class StreamActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun applyStreamBinding() {
-        viewModel.startStreaming {
+        viewModel.startStreaming { jpegImageByteArray: ByteArray ->
+            try {
+                val bitmap = BitmapFactory.decodeByteArray(
+                    jpegImageByteArray,
+                    0,
+                    jpegImageByteArray.size
+                )
+                binding.testImageView.setImageBitmap(bitmap)
+                Log.d(TAG, "image set")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             // TODO: set image to image view
         }
     }

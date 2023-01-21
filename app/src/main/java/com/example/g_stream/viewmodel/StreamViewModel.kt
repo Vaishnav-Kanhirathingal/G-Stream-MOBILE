@@ -107,17 +107,21 @@ class StreamViewModel(
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    fun startStreaming(setImage: () -> Unit) {
+    fun startStreaming(setImage: (ByteArray) -> Unit) {
         scope.launch {
             while (true) {
                 try {
-                    val str = screenStream!!.readUTF()
-                    Log.d(TAG, "received = \"${str}\"")
+                    val jpegImageByteArray = screenStream!!.readBytes()
+
+                    // TODO: read bytes doesn't end
+//                    val text = String(jpegImageByteArray, Charsets.UTF_8)
+//                    Log.d(TAG, "message received = $text")
+
+                    withContext(Dispatchers.Main) { setImage(jpegImageByteArray) }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                Thread.sleep(100)
-                // TODO: convert bytes to image and set it
+                Thread.sleep(1000)
             }
         }
     }
