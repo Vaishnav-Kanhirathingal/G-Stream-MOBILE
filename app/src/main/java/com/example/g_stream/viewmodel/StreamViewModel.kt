@@ -1,8 +1,6 @@
 package com.example.g_stream.viewmodel
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.viewmodel.data.JoyStickControls
@@ -34,7 +32,7 @@ class StreamViewModel(
     private val scope = CoroutineScope(Dispatchers.IO)
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 movementOutputStream = DataOutputStream(
                     Socket(connectionData.serverIpAddress, connectionData.movementPort)
@@ -106,17 +104,19 @@ class StreamViewModel(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun startStreaming(setImage: (ByteArray) -> Unit) {
         scope.launch {
             while (true) {
                 try {
-                    val jpegImageByteArray = screenStream!!.readBytes()
+                    //-----------------------------------------------------------------------------||
 
-                    // TODO: read bytes doesn't end
-//                    val text = String(jpegImageByteArray, Charsets.UTF_8)
-//                    Log.d(TAG, "message received = $text")
+                    val size = screenStream!!.readInt()
+                    val jpegImageByteArray = ByteArray(size)
 
+                    screenStream!!.readFully(jpegImageByteArray)
+                    Log.d(TAG, "image data received of length = $size")
+
+                    //-----------------------------------------------------------------------------||
                     withContext(Dispatchers.Main) { setImage(jpegImageByteArray) }
                 } catch (e: Exception) {
                     e.printStackTrace()

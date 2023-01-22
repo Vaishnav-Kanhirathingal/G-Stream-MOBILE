@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.g_stream.connection.ConnectionData
@@ -24,7 +23,6 @@ class StreamActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStreamBinding
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = StreamViewModel(
@@ -52,7 +50,6 @@ class StreamActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun applyBinding() {
         applyLeftSectionBinding()
         applyRightSectionBinding()
@@ -60,7 +57,6 @@ class StreamActivity : AppCompatActivity() {
         goFullScreen()
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun applyStreamBinding() {
         viewModel.startStreaming { jpegImageByteArray: ByteArray ->
             try {

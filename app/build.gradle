@@ -23,11 +23,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_9
-        targetCompatibility JavaVersion.VERSION_1_9
+        sourceCompatibility JavaVersion.VERSION_12
+        targetCompatibility JavaVersion.VERSION_12
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '12'
     }
     buildFeatures {
         viewBinding true
