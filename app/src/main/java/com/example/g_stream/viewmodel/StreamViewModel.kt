@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.viewmodel.data.JoyStickControls
-import com.example.g_stream.viewmodel.data.LeftPadControls
 import com.example.g_stream.viewmodel.data.MouseData
-import com.example.g_stream.viewmodel.data.RightPadControls
+import com.example.g_stream.viewmodel.data.PadControls
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -65,10 +64,10 @@ class StreamViewModel(
     /**
      * sends pad button press values
      */
-    fun leftPad(leftPadControls: LeftPadControls) {
-        Log.d(TAG, "value received = $leftPadControls")
+    fun leftPad(padControls: PadControls) {
+        Log.d(TAG, "value received = $padControls")
         scope.launch {
-            leftGamePadStream?.apply { writeUTF(Gson().toJson(leftPadControls));flush() }
+            leftGamePadStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
         }
     }
 
@@ -85,10 +84,10 @@ class StreamViewModel(
     /**
      * sends pad button press values
      */
-    fun rightPad(rightPadControls: RightPadControls) {
-        Log.d(TAG, "rightJoystick = ${rightPadControls.name}")
+    fun rightPad(padControls: PadControls) {
+        Log.d(TAG, "rightJoystick = ${padControls.name}")
         scope.launch {
-            gamePadOutputStream?.apply { writeUTF(Gson().toJson(rightPadControls));flush() }
+            gamePadOutputStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
         }
     }
 

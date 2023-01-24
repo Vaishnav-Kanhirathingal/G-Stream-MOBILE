@@ -1,7 +1,7 @@
 package com.example.g_stream.viewmodel.data
 
 import com.example.g_stream.viewmodel.data.JoyStickControls.*
-import com.example.g_stream.viewmodel.data.RightPadControls.*
+import com.example.g_stream.viewmodel.data.PadControls.*
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -28,24 +28,7 @@ enum class JoyStickControls {
 /**
  * [TOP], [BOTTOM], [LEFT], [RIGHT], [CENTER] are used for pad controllers
  */
-enum class RightPadControls {
-    @SerializedName(value = "1")
-    TOP,
-
-    @SerializedName(value = "2")
-    BOTTOM,
-
-    @SerializedName(value = "3")
-    LEFT,
-
-    @SerializedName(value = "4")
-    RIGHT,
-
-    @SerializedName(value = "5")
-    CENTER
-}
-
-enum class LeftPadControls {
+enum class PadControls {
     @SerializedName(value = "1")
     TOP,
 

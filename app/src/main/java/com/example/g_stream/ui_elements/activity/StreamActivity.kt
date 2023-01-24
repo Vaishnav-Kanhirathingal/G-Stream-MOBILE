@@ -13,8 +13,7 @@ import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.ActivityStreamBinding
 import com.example.g_stream.viewmodel.StreamViewModel
 import com.example.g_stream.viewmodel.data.JoyStickControls
-import com.example.g_stream.viewmodel.data.LeftPadControls
-import com.example.g_stream.viewmodel.data.RightPadControls
+import com.example.g_stream.viewmodel.data.PadControls
 import com.google.gson.Gson
 
 class StreamActivity : AppCompatActivity() {
@@ -82,11 +81,11 @@ class StreamActivity : AppCompatActivity() {
     private fun applyLeftSectionBinding() {
         binding.apply {
             // TODO: set values
-            topLpButton.setOnClickListener { viewModel.leftPad(LeftPadControls.TOP) }
-            leftLpButton.setOnClickListener { viewModel.leftPad(LeftPadControls.LEFT) }
-            rightLpButton.setOnClickListener { viewModel.leftPad(LeftPadControls.RIGHT) }
-            bottomLpButton.setOnClickListener { viewModel.leftPad(LeftPadControls.BOTTOM) }
-            centerLPButton.setOnClickListener { viewModel.leftPad(LeftPadControls.CENTER) }
+            topLpButton.setOnClickListener { viewModel.leftPad(PadControls.TOP) }
+            leftLpButton.setOnClickListener { viewModel.leftPad(PadControls.LEFT) }
+            rightLpButton.setOnClickListener { viewModel.leftPad(PadControls.RIGHT) }
+            bottomLpButton.setOnClickListener { viewModel.leftPad(PadControls.BOTTOM) }
+            centerLPButton.setOnClickListener { viewModel.leftPad(PadControls.CENTER) }
 
             var control = JoyStickControls.RELEASE
             leftJoystick.setOnMoveListener { angle, strength ->
@@ -116,11 +115,11 @@ class StreamActivity : AppCompatActivity() {
      */
     private fun applyRightSectionBinding() {
         binding.apply {
-            topRpButton.setOnClickListener { viewModel.rightPad(RightPadControls.TOP) }
-            leftRpButton.setOnClickListener { viewModel.rightPad(RightPadControls.LEFT) }
-            rightRpButton.setOnClickListener { viewModel.rightPad(RightPadControls.RIGHT) }
-            bottomRpButton.setOnClickListener { viewModel.rightPad(RightPadControls.BOTTOM) }
-            centerRPButton.setOnClickListener { viewModel.rightPad(RightPadControls.CENTER) }
+            topRpButton.setOnClickListener { viewModel.rightPad(PadControls.TOP) }
+            leftRpButton.setOnClickListener { viewModel.rightPad(PadControls.LEFT) }
+            rightRpButton.setOnClickListener { viewModel.rightPad(PadControls.RIGHT) }
+            bottomRpButton.setOnClickListener { viewModel.rightPad(PadControls.BOTTOM) }
+            centerRPButton.setOnClickListener { viewModel.rightPad(PadControls.CENTER) }
             rightJoystick.setOnMoveListener(
                 { angle, strength -> viewModel.rightJoystick(angle, strength) },
                 20
