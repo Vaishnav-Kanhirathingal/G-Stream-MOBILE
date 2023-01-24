@@ -4,8 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.viewmodel.data.JoyStickControls
+import com.example.g_stream.viewmodel.data.LeftPadControls
 import com.example.g_stream.viewmodel.data.MouseData
-import com.example.g_stream.viewmodel.data.PadControls
+import com.example.g_stream.viewmodel.data.RightPadControls
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,8 +27,8 @@ class StreamViewModel(
     private var movementOutputStream: DataOutputStream? = null
     private var gamePadOutputStream: DataOutputStream? = null
     private var mouseTrackOutputStream: DataOutputStream? = null
-    private var shiftOutputStream: DataOutputStream? = null
     private var screenStream: DataInputStream? = null
+    private var leftGamePadStream: DataOutputStream? = null
 
     private val scope = CoroutineScope(Dispatchers.IO)
 
@@ -35,24 +36,24 @@ class StreamViewModel(
         scope.launch {
             try {
                 movementOutputStream = DataOutputStream(
-                    Socket(connectionData.serverIpAddress, connectionData.movementPort)
+                    Socket(connectionData.serverIpAddress, connectionData.leftJoyStickPort)
                         .getOutputStream()
                 )
                 gamePadOutputStream = DataOutputStream(
-                    Socket(connectionData.serverIpAddress, connectionData.gamePadPort)
+                    Socket(connectionData.serverIpAddress, connectionData.rightGamePadPort)
                         .getOutputStream()
                 )
                 mouseTrackOutputStream = DataOutputStream(
-                    Socket(connectionData.serverIpAddress, connectionData.mouseTrackPort)
-                        .getOutputStream()
-                )
-                shiftOutputStream = DataOutputStream(
-                    Socket(connectionData.serverIpAddress, connectionData.shiftPort)
+                    Socket(connectionData.serverIpAddress, connectionData.rightJoyStickPort)
                         .getOutputStream()
                 )
                 screenStream = DataInputStream(
                     Socket(connectionData.serverIpAddress, connectionData.videoPort)
                         .getInputStream()
+                )
+                leftGamePadStream = DataOutputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.leftGamePadPort)
+                        .getOutputStream()
                 )
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) { showConnectionError() }
@@ -62,12 +63,12 @@ class StreamViewModel(
     }
 
     /**
-     * saves value for if the shift button is pressed
+     * sends pad button press values
      */
-    fun shiftPress(pressed: Boolean) {
-        Log.d(TAG, "shift pressed = $pressed")
+    fun leftPad(leftPadControls: LeftPadControls) {
+        Log.d(TAG, "value received = $leftPadControls")
         scope.launch {
-            shiftOutputStream?.apply { writeUTF(Gson().toJson(pressed));flush() }
+            leftGamePadStream?.apply { writeUTF(Gson().toJson(leftPadControls));flush() }
         }
     }
 
@@ -84,10 +85,10 @@ class StreamViewModel(
     /**
      * sends pad button press values
      */
-    fun rightPad(padControls: PadControls) {
-        Log.d(TAG, "rightJoystick = ${padControls.name}")
+    fun rightPad(rightPadControls: RightPadControls) {
+        Log.d(TAG, "rightJoystick = ${rightPadControls.name}")
         scope.launch {
-            gamePadOutputStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
+            gamePadOutputStream?.apply { writeUTF(Gson().toJson(rightPadControls));flush() }
         }
     }
 
@@ -121,7 +122,6 @@ class StreamViewModel(
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                Thread.sleep(1000)
             }
         }
     }

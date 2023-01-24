@@ -13,21 +13,73 @@
         android:id="@+id/test_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="100dp"
-        android:src="@drawable/common_google_signin_btn_text_dark_focused" />
+        android:scaleType="fitCenter"
+        tools:src="@drawable/common_full_open_on_phone" />
 
     <ImageButton
-        android:id="@+id/shift_image_button"
+        android:id="@+id/center_l_p_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/pad_transparency"
-        android:contentDescription="Shift button"
+        android:contentDescription="RMB button"
         android:src="@drawable/up_24"
         android:tooltipText="press this to activate shift key"
         app:layout_constraintBottom_toTopOf="@id/left_joystick"
         app:layout_constraintLeft_toLeftOf="@id/left_joystick"
         app:layout_constraintRight_toRightOf="@id/left_joystick"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/top_lp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/pad_button_spacing"
+        android:background="@color/pad_transparency"
+        android:contentDescription="Shift button"
+        android:src="@drawable/up_24"
+        android:tooltipText="press this to activate shift key"
+        app:layout_constraintBottom_toTopOf="@id/center_l_p_button"
+        app:layout_constraintLeft_toLeftOf="@id/center_l_p_button"
+        app:layout_constraintRight_toRightOf="@id/center_l_p_button" />
+
+    <ImageButton
+        android:id="@+id/bottom_lp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pad_button_spacing"
+        android:background="@color/pad_transparency"
+        android:contentDescription="Shift button"
+        android:src="@drawable/up_24"
+        android:tooltipText="press this to activate shift key"
+        app:layout_constraintLeft_toLeftOf="@id/center_l_p_button"
+        app:layout_constraintRight_toRightOf="@id/center_l_p_button"
+        app:layout_constraintTop_toBottomOf="@id/center_l_p_button" />
+
+    <ImageButton
+        android:id="@+id/left_lp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/pad_button_spacing"
+        android:background="@color/pad_transparency"
+        android:contentDescription="Shift button"
+        android:src="@drawable/up_24"
+        android:tooltipText="press this to activate shift key"
+        app:layout_constraintBottom_toBottomOf="@id/center_l_p_button"
+        app:layout_constraintRight_toLeftOf="@id/center_l_p_button"
+        app:layout_constraintTop_toTopOf="@id/center_l_p_button" />
+
+    <ImageButton
+        android:id="@+id/right_lp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/pad_button_spacing"
+        android:background="@color/pad_transparency"
+        android:contentDescription="Shift button"
+        android:src="@drawable/up_24"
+        android:tooltipText="press this to activate shift key"
+        app:layout_constraintBottom_toBottomOf="@id/center_l_p_button"
+        app:layout_constraintLeft_toRightOf="@id/center_l_p_button"
+        app:layout_constraintTop_toTopOf="@id/center_l_p_button" />
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/left_joystick"
@@ -39,59 +91,67 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/game_pad_layout"
+    <ImageButton
+        android:id="@+id/center_r_p_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/pad_transparency"
+        android:contentDescription="LMB button"
+        android:src="@drawable/up_24"
+        android:tooltipText="press this to activate shift key"
         app:layout_constraintBottom_toTopOf="@id/right_joystick"
         app:layout_constraintLeft_toLeftOf="@id/right_joystick"
         app:layout_constraintRight_toRightOf="@id/right_joystick"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/triangle_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/pad_transparency"
-            android:contentDescription="triangle button"
-            android:src="@drawable/triangle_24"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/top_rp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/pad_button_spacing"
+        android:background="@color/pad_transparency"
+        android:contentDescription="triangle button"
+        android:src="@drawable/triangle_24"
+        app:layout_constraintBottom_toTopOf="@id/center_r_p_button"
+        app:layout_constraintLeft_toLeftOf="@id/center_r_p_button"
+        app:layout_constraintRight_toRightOf="@id/center_r_p_button" />
 
 
-        <ImageButton
-            android:id="@+id/square_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/pad_transparency"
-            android:contentDescription="box button"
-            android:src="@drawable/square_24"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/triangle_button"
-            app:layout_constraintTop_toBottomOf="@id/triangle_button" />
+    <ImageButton
+        android:id="@+id/left_rp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/pad_button_spacing"
+        android:background="@color/pad_transparency"
+        android:contentDescription="box button"
+        android:src="@drawable/square_24"
+        app:layout_constraintBottom_toBottomOf="@id/center_r_p_button"
+        app:layout_constraintRight_toLeftOf="@id/center_r_p_button"
+        app:layout_constraintTop_toTopOf="@id/center_r_p_button" />
 
-        <ImageButton
-            android:id="@+id/circle_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/pad_transparency"
-            android:contentDescription="O button"
-            android:src="@drawable/circle_24"
-            app:layout_constraintLeft_toRightOf="@id/triangle_button"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/triangle_button" />
+    <ImageButton
+        android:id="@+id/right_rp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/pad_button_spacing"
+        android:background="@color/pad_transparency"
+        android:contentDescription="O button"
+        android:src="@drawable/circle_24"
+        app:layout_constraintBottom_toBottomOf="@id/center_r_p_button"
+        app:layout_constraintLeft_toRightOf="@id/center_r_p_button"
+        app:layout_constraintTop_toTopOf="@id/center_r_p_button" />
 
-        <ImageButton
-            android:id="@+id/cross_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/pad_transparency"
-            android:contentDescription="X button"
-            android:src="@drawable/closed_cross_24"
-            app:layout_constraintLeft_toRightOf="@id/square_button"
-            app:layout_constraintTop_toBottomOf="@id/square_button" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/bottom_rp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pad_button_spacing"
+        android:background="@color/pad_transparency"
+        android:contentDescription="X button"
+        android:src="@drawable/closed_cross_24"
+        app:layout_constraintLeft_toLeftOf="@id/center_r_p_button"
+        app:layout_constraintRight_toRightOf="@id/center_r_p_button"
+        app:layout_constraintTop_toBottomOf="@id/center_r_p_button" />
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/right_joystick"
