@@ -108,15 +108,10 @@ class StreamViewModel(
         scope.launch {
             while (true) {
                 try {
-                    //-----------------------------------------------------------------------------||
-
                     val size = screenStream!!.readInt()
                     val jpegImageByteArray = ByteArray(size)
-
                     screenStream!!.readFully(jpegImageByteArray)
                     Log.d(TAG, "image data received of length = $size")
-
-                    //-----------------------------------------------------------------------------||
                     withContext(Dispatchers.Main) { setImage(jpegImageByteArray) }
                 } catch (e: Exception) {
                     e.printStackTrace()

@@ -3,5 +3,8 @@
     <dimen name="control_spacing">60dp</dimen>
     <dimen name="joystick_size">150dp</dimen>
     <dimen name="controller_icon_size">40dp</dimen>
-    <dimen name="pad_button_spacing">10dp</dimen>
+    <dimen name="pad_button_spacing">5dp</dimen>
+
+    <dimen name="left_pad_button_padding">4dp</dimen>
+    <dimen name="left_pad_button_size">32dp</dimen>
 </resources>

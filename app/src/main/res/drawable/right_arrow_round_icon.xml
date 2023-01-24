@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/left_pad_button_size"
+    android:height="@dimen/left_pad_button_size"
+    android:tint="@color/pad_buttons"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <group
+        android:translateX="512"
+        android:translateY="512"
+        android:rotation="180">
+
+        <path
+            android:fillColor="@color/white"
+            android:fillType="evenOdd"
+            android:pathData="M512,256c0,70.68 -28.66,134.7 -74.98,181.02C390.7,483.34 326.68,512 256,512c-70.69,0 -134.7,-28.66 -181.02,-74.98C28.66,390.7 0,326.69 0,256c0,-70.69 28.66,-134.7 74.98,-181.02C121.3,28.66 185.31,0 256,0c70.68,0 134.7,28.66 181.02,74.98C483.34,121.3 512,185.31 512,256zM284.09,146.96 L175.06,256l109.03,109.04 40.52,-40.51 -68.51,-68.52 68.52,-68.52 -40.53,-40.53z" />
+
+    </group>
+</vector>
