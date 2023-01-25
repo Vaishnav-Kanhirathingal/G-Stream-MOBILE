@@ -6,8 +6,8 @@
     android:viewportHeight="512">
 
     <group
-        android:translateX="512"
-        android:rotation="90">
+        android:rotation="90"
+        android:translateX="512">
         <path
             android:fillColor="@color/white"
             android:fillType="evenOdd"

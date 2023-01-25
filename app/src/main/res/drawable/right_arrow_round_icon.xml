@@ -5,9 +5,9 @@
     android:viewportWidth="512"
     android:viewportHeight="512">
     <group
+        android:rotation="180"
         android:translateX="512"
-        android:translateY="512"
-        android:rotation="180">
+        android:translateY="512">
 
         <path
             android:fillColor="@color/white"
