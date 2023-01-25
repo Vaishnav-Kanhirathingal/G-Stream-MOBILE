@@ -11,11 +11,6 @@
         android:label="fragment_scan"
         tools:layout="@layout/fragment_scan" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.g_stream.ui_elements.fragments.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
-    <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.g_stream.ui_elements.fragments.HomeFragment"
         android:label="fragment_home"
@@ -23,8 +18,5 @@
         <action
             android:id="@+id/action_homeFragment_to_scanFragment"
             app:destination="@id/scanFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
     </fragment>
 </navigation>
