@@ -80,7 +80,6 @@ class StreamActivity : AppCompatActivity() {
      */
     private fun applyLeftSectionBinding() {
         binding.apply {
-            // TODO: set values
             topLpButton.setOnClickListener { viewModel.leftPad(PadControls.TOP) }
             leftLpButton.setOnClickListener { viewModel.leftPad(PadControls.LEFT) }
             rightLpButton.setOnClickListener { viewModel.leftPad(PadControls.RIGHT) }

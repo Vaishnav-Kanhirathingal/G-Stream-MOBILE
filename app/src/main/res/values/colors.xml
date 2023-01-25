@@ -14,9 +14,9 @@
 
     <color name="black_overlay">#66000000</color>
 
-    <color name="pad_transparency">#22000000</color>
+    <color name="pad_transparency">#44000000</color>
     <color name="joystick_button">#ffffff</color>
-    <color name="pad_buttons">#44ffffff</color>
+    <color name="pad_buttons">#66ffffff</color>
 
     <color name="red">#FF0000</color>
     <color name="green">#00FF00</color>

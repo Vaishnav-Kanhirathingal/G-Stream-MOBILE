@@ -28,7 +28,7 @@ enum class JoyStickControls {
 /**
  * format - left | right pad controls
  * [TOP] - jump SPACE-BAR | Additional button TAB
- * [BOTTOM] - crouch or C | Additional button F
+ * [BOTTOM] - crouch or C | interact F
  * [CENTER] - sprinting SHIFT | LMB
  * [LEFT] - RMB | Q
  * [RIGHT] - additional button M | E
