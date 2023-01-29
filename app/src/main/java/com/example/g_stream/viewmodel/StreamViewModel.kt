@@ -17,10 +17,14 @@ import java.net.Socket
 
 class StreamViewModel(
     private val connectionData: ConnectionData,
-    private val showConnectionError: () -> Unit
+    private val showConnectionError: () -> Unit,
+    private val audioWarning: () -> Unit,
+    private val videoWarning: () -> Unit,
+    private val leftJoystickWarning: () -> Unit,
+    private val rightJoystickWarning: () -> Unit,
+    private val leftGamePadWarning: () -> Unit,
+    private val rightGamePadWarning: () -> Unit,
 ) : ViewModel() {
-
-    // TODO: perform transmission based on parameters received
     private val TAG = this::class.java.simpleName
 
     private var movementOutputStream: DataOutputStream? = null
@@ -67,7 +71,12 @@ class StreamViewModel(
     fun leftPad(padControls: PadControls) {
         Log.d(TAG, "value received = $padControls")
         scope.launch {
-            leftGamePadStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
+            try {
+                leftGamePadStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message ?: "error for leftPad")
+                leftGamePadWarning()
+            }
         }
     }
 
@@ -77,7 +86,12 @@ class StreamViewModel(
     fun leftJoystick(joyStickControls: JoyStickControls) {
         Log.d(TAG, "value received = $joyStickControls")
         scope.launch {
-            movementOutputStream?.apply { writeUTF(Gson().toJson(joyStickControls));flush() }
+            try {
+                movementOutputStream?.apply { writeUTF(Gson().toJson(joyStickControls));flush() }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message ?: "error for leftJoystick")
+                leftJoystickWarning()
+            }
         }
     }
 
@@ -87,7 +101,12 @@ class StreamViewModel(
     fun rightPad(padControls: PadControls) {
         Log.d(TAG, "rightJoystick = ${padControls.name}")
         scope.launch {
-            gamePadOutputStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
+            try {
+                gamePadOutputStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message ?: "error for rightGamePad")
+                rightGamePadWarning()
+            }
         }
     }
 
@@ -97,9 +116,14 @@ class StreamViewModel(
     fun rightJoystick(angle: Int, strength: Int) {
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
         scope.launch {
-            mouseTrackOutputStream?.apply {
-                writeUTF(Gson().toJson(MouseData(mouseStrength = strength, mouseAngle = angle)))
-                flush()
+            try {
+                mouseTrackOutputStream?.apply {
+                    writeUTF(Gson().toJson(MouseData(mouseStrength = strength, mouseAngle = angle)))
+                    flush()
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message ?: "error for rightJoystick")
+                rightJoystickWarning()
             }
         }
     }
@@ -108,13 +132,15 @@ class StreamViewModel(
         scope.launch {
             while (true) {
                 try {
+                    // TODO: handle initial failure 
                     val size = screenStream!!.readInt()
                     val jpegImageByteArray = ByteArray(size)
                     screenStream!!.readFully(jpegImageByteArray)
                     Log.d(TAG, "image data received of length = $size")
                     withContext(Dispatchers.Main) { setImage(jpegImageByteArray) }
                 } catch (e: Exception) {
-                    e.printStackTrace()
+                    Log.e(TAG, e.message ?: "error for video")
+                    videoWarning()
                 }
             }
         }

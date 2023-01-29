@@ -1,6 +1,7 @@
 package com.example.g_stream.ui_elements.activity
 
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,7 @@ class StreamActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityStreamBinding.inflate(layoutInflater)
         viewModel = StreamViewModel(
             connectionData = getConnectionDataFromIntent(),
             showConnectionError = {
@@ -35,10 +37,14 @@ class StreamActivity : AppCompatActivity() {
                     .setPositiveButton("yes") { _, _ -> finish() }
                     .setNegativeButton("no") { _, _ -> }
                     .show()
-            }
+            },
+            audioWarning = { binding.audioWarning.setBackgroundColor(Color.RED) },
+            videoWarning = { binding.videoWarning.setBackgroundColor(Color.RED) },
+            leftJoystickWarning = { binding.leftJoystickWarning.setBackgroundColor(Color.RED) },
+            rightJoystickWarning = { binding.rightJoystickWarning.setBackgroundColor(Color.RED) },
+            leftGamePadWarning = { binding.leftGamePadWarning.setBackgroundColor(Color.RED) },
+            rightGamePadWarning = { binding.rightGamePadWarning.setBackgroundColor(Color.RED) },
         )
-
-        binding = ActivityStreamBinding.inflate(layoutInflater)
         setContentView(binding.root)
         applyBinding()
     }
@@ -70,7 +76,6 @@ class StreamActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            // TODO: set image to image view
         }
     }
 

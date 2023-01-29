@@ -113,11 +113,11 @@
         android:id="@+id/top_rp_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tooltipText="top button"
         android:layout_marginBottom="@dimen/pad_button_spacing"
         android:background="@color/pad_transparency"
         android:contentDescription="triangle button"
         android:src="@drawable/triangle_24"
+        android:tooltipText="top button"
         app:layout_constraintBottom_toTopOf="@id/center_r_p_button"
         app:layout_constraintLeft_toLeftOf="@id/center_r_p_button"
         app:layout_constraintRight_toRightOf="@id/center_r_p_button" />
@@ -128,10 +128,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/pad_button_spacing"
-        android:tooltipText="Q"
         android:background="@color/pad_transparency"
         android:contentDescription="Q"
         android:src="@drawable/square_24"
+        android:tooltipText="Q"
         app:layout_constraintBottom_toBottomOf="@id/center_r_p_button"
         app:layout_constraintRight_toLeftOf="@id/center_r_p_button"
         app:layout_constraintTop_toTopOf="@id/center_r_p_button" />
@@ -142,9 +142,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/pad_button_spacing"
         android:background="@color/pad_transparency"
-        android:tooltipText="E"
         android:contentDescription="E"
         android:src="@drawable/circle_24"
+        android:tooltipText="E"
         app:layout_constraintBottom_toBottomOf="@id/center_r_p_button"
         app:layout_constraintLeft_toRightOf="@id/center_r_p_button"
         app:layout_constraintTop_toTopOf="@id/center_r_p_button" />
@@ -156,9 +156,9 @@
         android:layout_marginTop="@dimen/pad_button_spacing"
         android:background="@color/pad_transparency"
         android:contentDescription="interact"
-        android:tooltipText="interact"
         android:padding="@dimen/left_pad_button_padding"
         android:src="@drawable/hand_pointer_icon"
+        android:tooltipText="interact"
         app:layout_constraintLeft_toLeftOf="@id/center_r_p_button"
         app:layout_constraintRight_toRightOf="@id/center_r_p_button"
         app:layout_constraintTop_toBottomOf="@id/center_r_p_button" />
@@ -172,4 +172,56 @@
         app:JV_buttonColor="@color/joystick_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/server_warning_icon_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:id="@+id/left_game_pad_warning"
+            android:layout_width="@dimen/server_warning_icon_size"
+            android:layout_height="@dimen/server_warning_icon_size"
+            android:layout_marginHorizontal="@dimen/server_warning_icon_size"
+            android:background="@color/green" />
+
+        <ImageView
+            android:id="@+id/left_joystick_warning"
+            android:layout_width="@dimen/server_warning_icon_size"
+            android:layout_height="@dimen/server_warning_icon_size"
+            android:layout_marginHorizontal="@dimen/server_warning_icon_size"
+            android:background="@color/green" />
+
+        <ImageView
+            android:id="@+id/audio_warning"
+            android:layout_width="@dimen/server_warning_icon_size"
+            android:layout_height="@dimen/server_warning_icon_size"
+            android:layout_marginHorizontal="@dimen/server_warning_icon_size"
+            android:background="@color/green" />
+
+        <ImageView
+            android:id="@+id/video_warning"
+            android:layout_width="@dimen/server_warning_icon_size"
+            android:layout_height="@dimen/server_warning_icon_size"
+            android:layout_marginHorizontal="@dimen/server_warning_icon_size"
+            android:background="@color/green" />
+
+        <ImageView
+            android:id="@+id/right_joystick_warning"
+            android:layout_width="@dimen/server_warning_icon_size"
+            android:layout_height="@dimen/server_warning_icon_size"
+            android:layout_marginHorizontal="@dimen/server_warning_icon_size"
+            android:background="@color/green" />
+
+        <ImageView
+            android:id="@+id/right_game_pad_warning"
+            android:layout_width="@dimen/server_warning_icon_size"
+            android:layout_height="@dimen/server_warning_icon_size"
+            android:layout_marginHorizontal="@dimen/server_warning_icon_size"
+            android:background="@color/green" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

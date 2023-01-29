@@ -7,4 +7,5 @@
 
     <dimen name="left_pad_button_padding">4dp</dimen>
     <dimen name="left_pad_button_size">32dp</dimen>
+    <dimen name="server_warning_icon_size">4dp</dimen>
 </resources>

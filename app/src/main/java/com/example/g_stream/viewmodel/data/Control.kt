@@ -5,8 +5,12 @@ import com.example.g_stream.viewmodel.data.PadControls.*
 import com.google.gson.annotations.SerializedName
 
 /**
- * [STICK_RIGHT], [STICK_UP], [STICK_LEFT], [STICK_DOWN], [RELEASE] are used for joystick controls.
- * These are common for both the left and right controls.
+ * [STICK_RIGHT] - move RIGHT
+ * [STICK_UP] - move UP
+ * [STICK_LEFT] - move LEFT
+ * [STICK_DOWN] - move DOWN
+ * [RELEASE]
+ * are used for joystick controls.
  */
 enum class JoyStickControls {
     @SerializedName(value = "1")
