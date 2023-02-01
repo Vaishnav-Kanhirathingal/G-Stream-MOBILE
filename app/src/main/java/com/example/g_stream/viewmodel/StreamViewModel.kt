@@ -27,37 +27,42 @@ class StreamViewModel(
 ) : ViewModel() {
     private val TAG = this::class.java.simpleName
 
-    private var movementOutputStream: DataOutputStream? = null
-    private var gamePadOutputStream: DataOutputStream? = null
-    private var mouseTrackOutputStream: DataOutputStream? = null
-    private var screenStream: DataInputStream? = null
+    private var leftJoystickStream: DataOutputStream? = null
+    private var rightJoystickStream: DataOutputStream? = null
     private var leftGamePadStream: DataOutputStream? = null
+    private var rightGamePadStream: DataOutputStream? = null
+    private var screenStream: DataInputStream? = null
+    private var audioStream: DataInputStream? = null
 
     private val scope = CoroutineScope(Dispatchers.IO)
 
     init {
         scope.launch {
             try {
-                movementOutputStream = DataOutputStream(
+                leftJoystickStream = DataOutputStream(
                     Socket(connectionData.serverIpAddress, connectionData.leftJoyStickPort)
                         .getOutputStream()
                 )
-                gamePadOutputStream = DataOutputStream(
-                    Socket(connectionData.serverIpAddress, connectionData.rightGamePadPort)
+                rightJoystickStream = DataOutputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.rightJoyStickPort)
                         .getOutputStream()
                 )
-                mouseTrackOutputStream = DataOutputStream(
-                    Socket(connectionData.serverIpAddress, connectionData.rightJoyStickPort)
+                leftGamePadStream = DataOutputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.leftGamePadPort)
+                        .getOutputStream()
+                )
+                rightGamePadStream = DataOutputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.rightGamePadPort)
                         .getOutputStream()
                 )
                 screenStream = DataInputStream(
                     Socket(connectionData.serverIpAddress, connectionData.videoPort)
                         .getInputStream()
                 )
-                leftGamePadStream = DataOutputStream(
-                    Socket(connectionData.serverIpAddress, connectionData.leftGamePadPort)
-                        .getOutputStream()
-                )
+//                audioStream = DataInputStream(
+//                    Socket(connectionData.serverIpAddress, connectionData.audioPort)
+//                        .getInputStream()
+//                )
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) { showConnectionError() }
                 e.printStackTrace()
@@ -87,7 +92,7 @@ class StreamViewModel(
         Log.d(TAG, "value received = $joyStickControls")
         scope.launch {
             try {
-                movementOutputStream?.apply { writeUTF(Gson().toJson(joyStickControls));flush() }
+                leftJoystickStream?.apply { writeUTF(Gson().toJson(joyStickControls));flush() }
             } catch (e: Exception) {
                 Log.e(TAG, e.message ?: "error for leftJoystick")
                 leftJoystickWarning()
@@ -102,7 +107,7 @@ class StreamViewModel(
         Log.d(TAG, "rightJoystick = ${padControls.name}")
         scope.launch {
             try {
-                gamePadOutputStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
+                rightGamePadStream?.apply { writeUTF(Gson().toJson(padControls));flush() }
             } catch (e: Exception) {
                 Log.e(TAG, e.message ?: "error for rightGamePad")
                 rightGamePadWarning()
@@ -117,7 +122,7 @@ class StreamViewModel(
         Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
         scope.launch {
             try {
-                mouseTrackOutputStream?.apply {
+                rightJoystickStream?.apply {
                     writeUTF(Gson().toJson(MouseData(mouseStrength = strength, mouseAngle = angle)))
                     flush()
                 }
@@ -128,7 +133,7 @@ class StreamViewModel(
         }
     }
 
-    fun startStreaming(setImage: (ByteArray) -> Unit) {
+    fun startVideoStreaming(setImage: (ByteArray) -> Unit) {
         scope.launch {
             while (true) {
                 try {
@@ -142,6 +147,14 @@ class StreamViewModel(
                     Log.e(TAG, e.message ?: "error for video")
                     videoWarning()
                 }
+            }
+        }
+    }
+
+    fun startAudioStreaming(){
+        scope.launch {
+            while (true){
+                // TODO: get audio packets
             }
         }
     }

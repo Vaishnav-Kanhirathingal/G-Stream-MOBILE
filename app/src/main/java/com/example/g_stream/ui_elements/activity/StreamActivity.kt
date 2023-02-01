@@ -64,7 +64,7 @@ class StreamActivity : AppCompatActivity() {
     }
 
     private fun applyStreamBinding() {
-        viewModel.startStreaming { jpegImageByteArray: ByteArray ->
+        viewModel.startVideoStreaming { jpegImageByteArray: ByteArray ->
             try {
                 val bitmap = BitmapFactory.decodeByteArray(
                     jpegImageByteArray,

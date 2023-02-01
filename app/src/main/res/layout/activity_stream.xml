@@ -5,7 +5,7 @@
     android:id="@+id/fullscreen_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/fullscreenBackgroundColor"
+    android:background="@color/black"
     android:theme="@style/ThemeOverlay.GStream.FullscreenContainer"
     tools:context=".ui_elements.activity.StreamActivity">
 
