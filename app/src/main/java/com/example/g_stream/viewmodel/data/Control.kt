@@ -56,10 +56,10 @@ enum class PadControls {
 }
 
 /**
- * @param mouseAngle is used to specify angle of joystick
- * @param mouseStrength is used to specify how much the joystick was extended
+ * @param mouseMovementX is used to specify coordinate X
+ * @param mouseMovementY is used to specify coordinate Y
  */
 data class MouseData(
-    @SerializedName(value = "1") var mouseStrength: Int,
-    @SerializedName(value = "2") var mouseAngle: Int,
+    @SerializedName(value = "1") var mouseMovementX: Int,
+    @SerializedName(value = "2") var mouseMovementY: Int,
 )

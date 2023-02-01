@@ -126,7 +126,12 @@ class StreamActivity : AppCompatActivity() {
             bottomRpButton.setOnClickListener { viewModel.rightPad(PadControls.BOTTOM) }
             centerRPButton.setOnClickListener { viewModel.rightPad(PadControls.CENTER) }
             rightJoystick.setOnMoveListener(
-                { angle, strength -> viewModel.rightJoystick(angle, strength) },
+                { _, _ ->
+                    viewModel.rightJoystick(
+                        x = (rightJoystick.normalizedX - 50),
+                        y = (50 - rightJoystick.normalizedY)
+                    )
+                },
                 20
             )
         }

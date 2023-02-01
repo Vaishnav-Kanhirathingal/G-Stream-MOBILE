@@ -118,12 +118,12 @@ class StreamViewModel(
     /**
      * used to send mouse pointer values to the desktop
      */
-    fun rightJoystick(angle: Int, strength: Int) {
-        Log.d(TAG, "rightPad : angle = $angle, strength = $strength")
+    fun rightJoystick(x: Int, y: Int) {
+        Log.d(TAG, "rightPad : x = $x,y = $y")
         scope.launch {
             try {
                 rightJoystickStream?.apply {
-                    writeUTF(Gson().toJson(MouseData(mouseStrength = strength, mouseAngle = angle)))
+                    writeUTF(Gson().toJson(MouseData(mouseMovementX = x, mouseMovementY = y)))
                     flush()
                 }
             } catch (e: Exception) {
