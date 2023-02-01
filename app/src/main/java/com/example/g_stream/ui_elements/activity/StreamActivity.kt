@@ -77,6 +77,7 @@ class StreamActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+        viewModel.startAudioStreaming()
     }
 
     /**

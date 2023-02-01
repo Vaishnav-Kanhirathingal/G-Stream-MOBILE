@@ -59,10 +59,10 @@ class StreamViewModel(
                     Socket(connectionData.serverIpAddress, connectionData.videoPort)
                         .getInputStream()
                 )
-//                audioStream = DataInputStream(
-//                    Socket(connectionData.serverIpAddress, connectionData.audioPort)
-//                        .getInputStream()
-//                )
+                audioStream = DataInputStream(
+                    Socket(connectionData.serverIpAddress, connectionData.audioPort)
+                        .getInputStream()
+                )
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) { showConnectionError() }
                 e.printStackTrace()
@@ -151,10 +151,15 @@ class StreamViewModel(
         }
     }
 
-    fun startAudioStreaming(){
+    fun startAudioStreaming() {
         scope.launch {
-            while (true){
-                // TODO: get audio packets
+            while (true) {
+                try {
+                    val str = audioStream!!.readUTF()
+                    Log.d(TAG, "audioStream output = $str")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
