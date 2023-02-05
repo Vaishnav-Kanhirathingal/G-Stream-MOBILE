@@ -9,7 +9,11 @@ import com.google.gson.annotations.SerializedName
  * [STICK_UP] - move UP
  * [STICK_LEFT] - move LEFT
  * [STICK_DOWN] - move DOWN
- * [RELEASE]
+ * [RELEASE] - release button
+ * [STICK_UP_RIGHT] - move UP RIGHT
+ * [STICK_UP_LEFT] - move UP LEFT
+ * [STICK_DOWN_RIGHT] - move DOWN RIGHT
+ * [STICK_DOWN_LEFT] - move DOWN LEFT
  * are used for joystick controls.
  */
 enum class JoyStickControls {
@@ -26,7 +30,19 @@ enum class JoyStickControls {
     STICK_DOWN,
 
     @SerializedName(value = "5")
-    RELEASE
+    RELEASE,
+
+    @SerializedName(value = "6")
+    STICK_UP_RIGHT,
+
+    @SerializedName(value = "7")
+    STICK_UP_LEFT,
+
+    @SerializedName(value = "8")
+    STICK_DOWN_RIGHT,
+
+    @SerializedName(value = "9")
+    STICK_DOWN_LEFT,
 }
 
 /**

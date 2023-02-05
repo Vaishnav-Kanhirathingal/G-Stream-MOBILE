@@ -99,9 +99,13 @@ class StreamActivity : AppCompatActivity() {
                         JoyStickControls.RELEASE
                     } else {
                         when (angle) {
-                            in 46..135 -> JoyStickControls.STICK_UP
-                            in 136..225 -> JoyStickControls.STICK_LEFT
-                            in 226..315 -> JoyStickControls.STICK_DOWN
+                            in 23..68 -> JoyStickControls.STICK_UP_RIGHT
+                            in 69..113 -> JoyStickControls.STICK_UP
+                            in 114..158 -> JoyStickControls.STICK_UP_LEFT
+                            in 159..203 -> JoyStickControls.STICK_LEFT
+                            in 204..248 -> JoyStickControls.STICK_DOWN_LEFT
+                            in 249..293 -> JoyStickControls.STICK_DOWN
+                            in 294..338->JoyStickControls.STICK_DOWN_RIGHT
                             else -> JoyStickControls.STICK_RIGHT
                         }
                     }
