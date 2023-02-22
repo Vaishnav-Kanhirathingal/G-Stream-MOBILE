@@ -36,6 +36,9 @@ class StreamViewModel(
 
     private val scope = CoroutineScope(Dispatchers.IO)
 
+    private var x = 0
+    private var y = 0
+
     init {
         scope.launch {
             try {
@@ -67,6 +70,7 @@ class StreamViewModel(
                 withContext(Dispatchers.Main) { showConnectionError() }
                 e.printStackTrace()
             }
+            initiateRightJoystick()
         }
     }
 
@@ -120,16 +124,27 @@ class StreamViewModel(
      */
     fun rightJoystick(x: Int, y: Int) {
         Log.d(TAG, "rightPad : x = $x,y = $y")
-        scope.launch {
-            try {
-                rightJoystickStream?.apply {
-                    writeUTF(Gson().toJson(MouseData(mouseMovementX = x, mouseMovementY = y)))
-                    flush()
+        this.x += x
+        this.y += y
+    }
+
+    private suspend fun initiateRightJoystick() {
+        try {
+            while (true) {
+                if (x == 0 && y == 0) {
+                    Thread.sleep(1)
+                } else {
+                    rightJoystickStream?.apply {
+                        writeUTF(Gson().toJson(MouseData(mouseMovementX = x, mouseMovementY = y)))
+                        x = 0
+                        y = 0
+                        flush()
+                    }
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, e.message ?: "error for rightJoystick")
-                rightJoystickWarning()
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            rightJoystickWarning()
         }
     }
 
@@ -141,7 +156,7 @@ class StreamViewModel(
                     val size = screenStream!!.readInt()
                     val jpegImageByteArray = ByteArray(size)
                     screenStream!!.readFully(jpegImageByteArray)
-                    Log.d(TAG, "image data received of length = $size")
+//                    Log.d(TAG, "image data received of length = $size")
                     withContext(Dispatchers.Main) { setImage(jpegImageByteArray) }
                 } catch (e: Exception) {
                     Log.e(TAG, e.message ?: "error for video")
@@ -156,7 +171,7 @@ class StreamViewModel(
             while (true) {
                 try {
                     val str = audioStream!!.readUTF()
-                    Log.d(TAG, "audioStream output = $str")
+//                    Log.d(TAG, "audioStream output = $str")
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

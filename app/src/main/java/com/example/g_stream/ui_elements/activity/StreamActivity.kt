@@ -72,7 +72,6 @@ class StreamActivity : AppCompatActivity() {
                     jpegImageByteArray.size
                 )
                 binding.testImageView.setImageBitmap(bitmap)
-                Log.d(TAG, "image set")
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -105,7 +104,7 @@ class StreamActivity : AppCompatActivity() {
                             in 159..203 -> JoyStickControls.STICK_LEFT
                             in 204..248 -> JoyStickControls.STICK_DOWN_LEFT
                             in 249..293 -> JoyStickControls.STICK_DOWN
-                            in 294..338->JoyStickControls.STICK_DOWN_RIGHT
+                            in 294..338 -> JoyStickControls.STICK_DOWN_RIGHT
                             else -> JoyStickControls.STICK_RIGHT
                         }
                     }
@@ -133,10 +132,10 @@ class StreamActivity : AppCompatActivity() {
                 { _, _ ->
                     viewModel.rightJoystick(
                         x = (rightJoystick.normalizedX - 50),
-                        y = (50 - rightJoystick.normalizedY)
+                        y = (rightJoystick.normalizedY - 50)
                     )
                 },
-                20
+                40
             )
         }
     }
