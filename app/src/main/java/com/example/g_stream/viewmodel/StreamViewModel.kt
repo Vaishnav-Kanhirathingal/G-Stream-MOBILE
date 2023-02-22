@@ -152,11 +152,9 @@ class StreamViewModel(
         scope.launch {
             while (true) {
                 try {
-                    // TODO: handle initial failure 
                     val size = screenStream!!.readInt()
                     val jpegImageByteArray = ByteArray(size)
                     screenStream!!.readFully(jpegImageByteArray)
-//                    Log.d(TAG, "image data received of length = $size")
                     withContext(Dispatchers.Main) { setImage(jpegImageByteArray) }
                 } catch (e: Exception) {
                     Log.e(TAG, e.message ?: "error for video")
@@ -168,13 +166,17 @@ class StreamViewModel(
 
     fun startAudioStreaming() {
         scope.launch {
-            while (true) {
-                try {
-                    val str = audioStream!!.readUTF()
-//                    Log.d(TAG, "audioStream output = $str")
-                } catch (e: Exception) {
-                    e.printStackTrace()
+            try{
+                while (true) {
+                    try {
+                        val str = audioStream!!.readUTF()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
+            }catch (e:Exception){
+                e.printStackTrace()
+                audioWarning()
             }
         }
     }
