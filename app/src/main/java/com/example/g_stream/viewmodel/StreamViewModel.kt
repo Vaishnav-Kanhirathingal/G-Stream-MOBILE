@@ -166,7 +166,7 @@ class StreamViewModel(
 
     fun startAudioStreaming() {
         scope.launch {
-            try{
+            try {
                 while (true) {
                     try {
                         val str = audioStream!!.readUTF()
@@ -174,7 +174,7 @@ class StreamViewModel(
                         e.printStackTrace()
                     }
                 }
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
                 audioWarning()
             }
