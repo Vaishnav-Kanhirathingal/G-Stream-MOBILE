@@ -37,9 +37,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true"
                 android:layout_margin="@dimen/card_spacing"
-                app:cardElevation="@dimen/cardview_default_elevation">
+                app:cardElevation="@dimen/cardview_default_elevation"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,10 +70,10 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                app:cardUseCompatPadding="true"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/card_spacing"
-                app:cardElevation="@dimen/cardview_default_elevation">
+                app:cardElevation="@dimen/cardview_default_elevation"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,9 +105,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true"
                 android:layout_margin="@dimen/card_spacing"
-                app:cardElevation="@dimen/cardview_default_elevation">
+                app:cardElevation="@dimen/cardview_default_elevation"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -144,10 +144,10 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                app:cardUseCompatPadding="true"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/card_spacing"
-                app:cardElevation="@dimen/cardview_default_elevation">
+                app:cardElevation="@dimen/cardview_default_elevation"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
