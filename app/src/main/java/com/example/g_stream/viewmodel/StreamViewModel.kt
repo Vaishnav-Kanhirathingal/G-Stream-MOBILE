@@ -36,8 +36,7 @@ class StreamViewModel(
 
     private val scope = CoroutineScope(Dispatchers.IO)
 
-    private var x = 0
-    private var y = 0
+    private val mouseList = mutableListOf<MouseData>()
 
     init {
         scope.launch {
@@ -122,22 +121,29 @@ class StreamViewModel(
     /**
      * used to send mouse pointer values to the desktop
      */
-    fun rightJoystick(x: Int, y: Int) {
-        Log.d(TAG, "rightPad : x = $x,y = $y")
-        this.x += x
-        this.y += y
+    fun rightJoystick(coordinateX: Int, coordinateY: Int) {
+        Log.d(TAG, "rightPad : x = $coordinateX,y = $coordinateY")
+        mouseList.add(
+            MouseData(
+                coordinateX - 50,
+                coordinateY - 50
+            )
+        )
     }
 
     private suspend fun initiateRightJoystick() {
         try {
             while (true) {
-                if (x == 0 && y == 0) {
+                if (mouseList.isEmpty()) {
                     Thread.sleep(1)
                 } else {
                     rightJoystickStream?.apply {
-                        writeUTF(Gson().toJson(MouseData(mouseMovementX = x, mouseMovementY = y)))
-                        x = 0
-                        y = 0
+                        val tempList = mutableListOf<String>()
+                        for (i in mouseList) {
+                            tempList.add(Gson().toJson(i))
+                        }
+                        mouseList.clear()
+                        writeUTF(Gson().toJson(tempList))//-------------------------------takes time
                         flush()
                     }
                 }

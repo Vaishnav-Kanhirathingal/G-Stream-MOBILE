@@ -155,9 +155,10 @@ class StreamActivity : AppCompatActivity() {
             rightJoystick.setOnMoveListener(
                 { _, _ ->
                     viewModel.rightJoystick(
-                        x = (rightJoystick.normalizedX - 50), y = (rightJoystick.normalizedY - 50)
+                        coordinateX = rightJoystick.normalizedX,
+                        coordinateY = rightJoystick.normalizedY
                     )
-                }, 40
+                }, 60
             )
         }
     }
