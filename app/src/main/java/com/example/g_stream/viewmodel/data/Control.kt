@@ -47,28 +47,44 @@ enum class JoyStickControls {
 
 /**
  * format - left | right pad controls
- * [TOP] - jump SPACE-BAR | Additional button TAB
- * [BOTTOM] - crouch or C | interact F
- * [CENTER] - sprinting SHIFT | LMB
- * [LEFT] - RMB | Q
- * [RIGHT] - additional button M | E
+ * [TOP_PRESSED] - jump SPACE-BAR | Additional button TAB
+ * [BOTTOM_PRESSED] - crouch or C | interact F
+ * [CENTER_PRESSED] - sprinting SHIFT | LMB
+ * [LEFT_PRESSED] - RMB | Q
+ * [RIGHT_PRESSED] - additional button M | E
+ * [TOP_RELEASED], [BOTTOM_RELEASED], [CENTER_RELEASED], [LEFT_RELEASED], [RIGHT_RELEASED] - release respective buttons
  * are used for pad controllers
  */
 enum class PadControls {
     @SerializedName(value = "1")
-    TOP,
+    TOP_PRESSED,
 
     @SerializedName(value = "2")
-    BOTTOM,
-
-    @SerializedName(value = "5")
-    CENTER,
+    TOP_RELEASED,
 
     @SerializedName(value = "3")
-    LEFT,
+    BOTTOM_PRESSED,
 
     @SerializedName(value = "4")
-    RIGHT
+    BOTTOM_RELEASED,
+
+    @SerializedName(value = "5")
+    CENTER_PRESSED,
+
+    @SerializedName(value = "6")
+    CENTER_RELEASED,
+
+    @SerializedName(value = "7")
+    LEFT_PRESSED,
+
+    @SerializedName(value = "8")
+    LEFT_RELEASED,
+
+    @SerializedName(value = "9")
+    RIGHT_PRESSED,
+
+    @SerializedName(value = "10")
+    RIGHT_RELEASED
 }
 
 /**
