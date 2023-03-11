@@ -17,6 +17,7 @@ import com.example.g_stream.databinding.ActivityStreamBinding
 import com.example.g_stream.viewmodel.StreamViewModel
 import com.example.g_stream.viewmodel.data.JoyStickControls
 import com.example.g_stream.viewmodel.data.PadControls
+import com.example.g_stream.viewmodel.data.PadControls.*
 import com.google.gson.Gson
 
 class StreamActivity : AppCompatActivity() {
@@ -83,25 +84,34 @@ class StreamActivity : AppCompatActivity() {
      */
     @SuppressLint("ClickableViewAccessibility")
     private fun applyLeftSectionBinding() {
-        binding.apply {
-            topLpButton.setOnClickListener { viewModel.leftPad(PadControls.TOP_PRESSED) }
-            leftLpButton.setOnTouchListener { _, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        viewModel.leftPad(PadControls.LEFT_PRESSED);true
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        viewModel.leftPad(PadControls.LEFT_RELEASED);true
-                    }
-                    else -> {
-                        Log.d(TAG, "failed to recognize");false
-                    }
+        val buttonPresser = { action: Int, toPress: PadControls, toRelease: PadControls ->
+            when (action) {
+                MotionEvent.ACTION_DOWN -> {
+                    viewModel.leftPad(toPress);true
                 }
+                MotionEvent.ACTION_UP -> {
+                    viewModel.leftPad(toRelease);true
+                }
+                else -> false
             }
+        }
 
-            rightLpButton.setOnClickListener { viewModel.leftPad(PadControls.RIGHT_PRESSED) }
-            bottomLpButton.setOnClickListener { viewModel.leftPad(PadControls.BOTTOM_PRESSED) }
-            centerLPButton.setOnClickListener { viewModel.leftPad(PadControls.CENTER_PRESSED) }
+        binding.apply {
+            topLpButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, TOP_PRESSED, TOP_RELEASED)
+            }
+            leftLpButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, LEFT_PRESSED, LEFT_RELEASED)
+            }
+            rightLpButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, RIGHT_PRESSED, RIGHT_RELEASED)
+            }
+            bottomLpButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, BOTTOM_PRESSED, BOTTOM_RELEASED)
+            }
+            centerLPButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, CENTER_PRESSED, CENTER_RELEASED)
+            }
 
             var control = JoyStickControls.RELEASE
             leftJoystick.setOnMoveListener { angle, strength ->
@@ -134,23 +144,32 @@ class StreamActivity : AppCompatActivity() {
      */
     @SuppressLint("ClickableViewAccessibility")
     private fun applyRightSectionBinding() {
-        binding.apply {
-            topRpButton.setOnClickListener { viewModel.rightPad(PadControls.TOP_PRESSED) }
-            leftRpButton.setOnClickListener { viewModel.rightPad(PadControls.LEFT_PRESSED) }
-            rightRpButton.setOnClickListener { viewModel.rightPad(PadControls.RIGHT_PRESSED) }
-            bottomRpButton.setOnClickListener { viewModel.rightPad(PadControls.BOTTOM_PRESSED) }
-            centerRPButton.setOnTouchListener { _, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        viewModel.rightPad(PadControls.CENTER_PRESSED);true
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        viewModel.rightPad(PadControls.CENTER_RELEASED);true
-                    }
-                    else -> {
-                        Log.d(TAG, "failed to recognize");false
-                    }
+        val buttonPresser = { action: Int, toPress: PadControls, toRelease: PadControls ->
+            when (action) {
+                MotionEvent.ACTION_DOWN -> {
+                    viewModel.rightPad(toPress);true
                 }
+                MotionEvent.ACTION_UP -> {
+                    viewModel.rightPad(toRelease);true
+                }
+                else -> false
+            }
+        }
+        binding.apply {
+            topRpButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, TOP_PRESSED, TOP_RELEASED)
+            }
+            leftRpButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, LEFT_PRESSED, LEFT_RELEASED)
+            }
+            rightRpButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, RIGHT_PRESSED, RIGHT_RELEASED)
+            }
+            bottomRpButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, BOTTOM_PRESSED, BOTTOM_RELEASED)
+            }
+            centerRPButton.setOnTouchListener { _, event ->
+                buttonPresser(event.action, CENTER_PRESSED, CENTER_RELEASED)
             }
             rightJoystick.setOnMoveListener(
                 { _, _ ->
