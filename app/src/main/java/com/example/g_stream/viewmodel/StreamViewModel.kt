@@ -24,6 +24,7 @@ class StreamViewModel(
     private val rightJoystickWarning: () -> Unit,
     private val leftGamePadWarning: () -> Unit,
     private val rightGamePadWarning: () -> Unit,
+    private val getMouseData: () -> MouseData,
 ) : ViewModel() {
     private val TAG = this::class.java.simpleName
 
@@ -35,8 +36,6 @@ class StreamViewModel(
     private var audioStream: DataInputStream? = null
 
     private val scope = CoroutineScope(Dispatchers.IO)
-
-    private val mouseList = mutableListOf<MouseData>()
 
     init {
         scope.launch {
@@ -121,31 +120,12 @@ class StreamViewModel(
     /**
      * used to send mouse pointer values to the desktop
      */
-    fun rightJoystick(coordinateX: Int, coordinateY: Int) {
-        Log.d(TAG, "rightPad : x = $coordinateX,y = $coordinateY")
-        mouseList.add(
-            MouseData(
-                coordinateX - 50,
-                coordinateY - 50
-            )
-        )
-    }
-
     private suspend fun initiateRightJoystick() {
         try {
             while (true) {
-                if (mouseList.isEmpty()) {
-                    Thread.sleep(1)
-                } else {
-                    rightJoystickStream?.apply {
-                        val tempList = mutableListOf<String>()
-                        for (i in mouseList) {
-                            tempList.add(Gson().toJson(i))
-                        }
-                        mouseList.clear()
-                        writeUTF(Gson().toJson(tempList))//-------------------------------takes time
-                        flush()
-                    }
+                rightJoystickStream?.apply {
+                    writeUTF(Gson().toJson(getMouseData()))//-------------------------------takes time
+                    flush()
                 }
             }
         } catch (e: Exception) {

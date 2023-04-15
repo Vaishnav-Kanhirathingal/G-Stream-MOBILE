@@ -16,6 +16,7 @@ import com.example.g_stream.connection.ConnectionData
 import com.example.g_stream.databinding.ActivityStreamBinding
 import com.example.g_stream.viewmodel.StreamViewModel
 import com.example.g_stream.viewmodel.data.JoyStickControls
+import com.example.g_stream.viewmodel.data.MouseData
 import com.example.g_stream.viewmodel.data.PadControls
 import com.example.g_stream.viewmodel.data.PadControls.*
 import com.google.gson.Gson
@@ -30,8 +31,7 @@ class StreamActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStreamBinding.inflate(layoutInflater)
-        viewModel = StreamViewModel(
-            connectionData = getConnectionDataFromIntent(),
+        viewModel = StreamViewModel(connectionData = getConnectionDataFromIntent(),
             showConnectionError = {
                 Toast.makeText(this, "Error initiating a connection", Toast.LENGTH_SHORT).show()
                 AlertDialog.Builder(this)
@@ -45,7 +45,11 @@ class StreamActivity : AppCompatActivity() {
             rightJoystickWarning = { binding.rightJoystickWarning.setBackgroundColor(Color.RED) },
             leftGamePadWarning = { binding.leftGamePadWarning.setBackgroundColor(Color.RED) },
             rightGamePadWarning = { binding.rightGamePadWarning.setBackgroundColor(Color.RED) },
-        )
+            getMouseData = {
+                MouseData(
+                    binding.rightJoystick.normalizedX - 50, binding.rightJoystick.normalizedY - 50
+                )
+            })
         setContentView(binding.root)
         applyBinding()
     }
@@ -89,9 +93,11 @@ class StreamActivity : AppCompatActivity() {
                 MotionEvent.ACTION_DOWN -> {
                     viewModel.leftPad(toPress);true
                 }
+
                 MotionEvent.ACTION_UP -> {
                     viewModel.leftPad(toRelease);true
                 }
+
                 else -> false
             }
         }
@@ -149,9 +155,11 @@ class StreamActivity : AppCompatActivity() {
                 MotionEvent.ACTION_DOWN -> {
                     viewModel.rightPad(toPress);true
                 }
+
                 MotionEvent.ACTION_UP -> {
                     viewModel.rightPad(toRelease);true
                 }
+
                 else -> false
             }
         }
@@ -171,14 +179,6 @@ class StreamActivity : AppCompatActivity() {
             centerRPButton.setOnTouchListener { _, event ->
                 buttonPresser(event.action, CENTER_PRESSED, CENTER_RELEASED)
             }
-            rightJoystick.setOnMoveListener(
-                { _, _ ->
-                    viewModel.rightJoystick(
-                        coordinateX = rightJoystick.normalizedX,
-                        coordinateY = rightJoystick.normalizedY
-                    )
-                }, 60
-            )
         }
     }
 

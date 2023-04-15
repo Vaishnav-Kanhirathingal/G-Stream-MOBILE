@@ -1,7 +1,24 @@
 package com.example.g_stream.viewmodel.data
 
-import com.example.g_stream.viewmodel.data.JoyStickControls.*
-import com.example.g_stream.viewmodel.data.PadControls.*
+import com.example.g_stream.viewmodel.data.JoyStickControls.RELEASE
+import com.example.g_stream.viewmodel.data.JoyStickControls.STICK_DOWN
+import com.example.g_stream.viewmodel.data.JoyStickControls.STICK_DOWN_LEFT
+import com.example.g_stream.viewmodel.data.JoyStickControls.STICK_DOWN_RIGHT
+import com.example.g_stream.viewmodel.data.JoyStickControls.STICK_LEFT
+import com.example.g_stream.viewmodel.data.JoyStickControls.STICK_RIGHT
+import com.example.g_stream.viewmodel.data.JoyStickControls.STICK_UP
+import com.example.g_stream.viewmodel.data.JoyStickControls.STICK_UP_LEFT
+import com.example.g_stream.viewmodel.data.JoyStickControls.STICK_UP_RIGHT
+import com.example.g_stream.viewmodel.data.PadControls.BOTTOM_PRESSED
+import com.example.g_stream.viewmodel.data.PadControls.BOTTOM_RELEASED
+import com.example.g_stream.viewmodel.data.PadControls.CENTER_PRESSED
+import com.example.g_stream.viewmodel.data.PadControls.CENTER_RELEASED
+import com.example.g_stream.viewmodel.data.PadControls.LEFT_PRESSED
+import com.example.g_stream.viewmodel.data.PadControls.LEFT_RELEASED
+import com.example.g_stream.viewmodel.data.PadControls.RIGHT_PRESSED
+import com.example.g_stream.viewmodel.data.PadControls.RIGHT_RELEASED
+import com.example.g_stream.viewmodel.data.PadControls.TOP_PRESSED
+import com.example.g_stream.viewmodel.data.PadControls.TOP_RELEASED
 import com.google.gson.annotations.SerializedName
 
 /**
