@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
                 }
             }
             documentationButton.setOnClickListener {
-                // TODO: open documentation
+                openURL("https://github.com/Vaishnav-Kanhirathingal/G-Stream-MOBILE/blob/main/README.md")
             }
             desktopIcon.load("https://github.com/Vaishnav-Kanhirathingal/G-Stream-Desktop/raw/main/src/main/resources/app_icon_mipmap/mipmap-xxxhdpi/ic_launcher.png?raw=true")
             desktopGithubButton.setOnClickListener {
