@@ -19,10 +19,9 @@ This project is an attempt to localize cloud gaming services. The way this proje
 
 ### Main Screen
 
-[todo - PIC]
-
 ![Screenshot_20230530_184138_com example g_stream](https://github.com/Vaishnav-Kanhirathingal/G-Stream-MOBILE/assets/94210466/9e932d86-bbc7-4cdc-9b52-b0f2c2af9a9e)
 
+This is the main screen of the mobile application. Each button has different actions:
 
 - Scan Button - Starts the scanning service to scan a QR-code
 - Documentation Button - Opens the github documentation for the app
@@ -30,8 +29,6 @@ This project is an attempt to localize cloud gaming services. The way this proje
 - Android App Button - Opens the github repository of the android app
 
 ### Scan Screen
-
-[todo - PIC]
 
 ![Screenshot_20230530_190422_com example g_stream](https://github.com/Vaishnav-Kanhirathingal/G-Stream-MOBILE/assets/94210466/f2f441c5-c221-4c39-b383-52a8d892b81c)
 
