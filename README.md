@@ -34,7 +34,7 @@ This is the main screen of the mobile application. Each button has different act
 
 Start the desktop application and point the camera to the QR-code generated on the desktop app. This establishes a connection between the two devices.
 
-### Gameplay Screen
+### Gameplay demo
 
 https://github.com/Vaishnav-Kanhirathingal/G-Stream-MOBILE/assets/94210466/7c821e31-b0d4-4cfd-bdbf-e1c02176a487
 
