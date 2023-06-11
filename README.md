@@ -2,6 +2,12 @@
 
 Android client of the game streaming service project.
 
+## Gameplay demo
+
+https://github.com/Vaishnav-Kanhirathingal/G-Stream-MOBILE/assets/94210466/7c821e31-b0d4-4cfd-bdbf-e1c02176a487
+
+The above video showcases the gameplay on both the android and the Windows side. The above screen is for the android side and the below one is for the Desktop side. This represents the latency and quality of gameplay. The UI gamepads and trackpads can be used to control the game. You can set custom keymaps for each button in the desktop app to modify gameplay in the desktop application. The buttons also support long presses.
+
 ## What is cloud gaming?
 
 Cloud gaming is a service which gives its user the ability to play high-end games on any device using a server on the internet that does all the necessary computing for the game. The idea is to have the game run on a remote machine and have the user interact with this machine through an app to play the game. The server and device then communicate on what to be shared between them. The data usually contains what controller buttons the user pressed, where the joystick is, the frame to be displayed to give visual on the gaming device.
@@ -33,9 +39,3 @@ This is the main screen of the mobile application. Each button has different act
 ![Screenshot_20230530_190422_com example g_stream](https://github.com/Vaishnav-Kanhirathingal/G-Stream-MOBILE/assets/94210466/f2f441c5-c221-4c39-b383-52a8d892b81c)
 
 Start the desktop application and point the camera to the QR-code generated on the desktop app. This establishes a connection between the two devices.
-
-### Gameplay demo
-
-https://github.com/Vaishnav-Kanhirathingal/G-Stream-MOBILE/assets/94210466/7c821e31-b0d4-4cfd-bdbf-e1c02176a487
-
-The above video showcases the gameplay on both the android and the Windows side. The above screen is for the android side and the below one is for the Desktop side. This represents the latency and quality of gameplay. The UI gamepads and trackpads can be used to control the game. You can set custom keymaps for each button in the desktop app to modify gameplay in the desktop application. The buttons also support long presses.
